@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+from cms.models import CMSPlugin
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
 import pubmed_lookup
@@ -167,3 +168,10 @@ class PublicationSet(models.Model):
 
     class Meta:
         ordering = ('label',)
+
+
+class PublicationSetPlugin(CMSPlugin):
+    publication_set = models.ForeignKey('cms_lab_publications.PublicationSet')
+
+    def __str__(self):
+        return self.publication_set.name

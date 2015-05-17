@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from cms.models import CMSPlugin
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
+from taggit.managers import TaggableManager
 import pubmed_lookup
 
 
@@ -45,6 +46,8 @@ class Publication(models.Model):
                   'for this publication.',
         related_name='%(app_label)s_%(class)s_image',
     )
+
+    tags = TaggableManager()
 
     title = models.CharField('title',
         blank=True,
@@ -148,7 +151,6 @@ class PublicationSet(models.Model):
         help_text="Enter a unique name for this Publication Set. " \
                   "This won't be displayed on the site.",
         max_length=255,
-        # primary_key=True,
         unique=True,
     )
     label = models.CharField('label',
@@ -162,6 +164,8 @@ class PublicationSet(models.Model):
     )
 
     publications = models.ManyToManyField(Publication)
+
+    tags = TaggableManager()
 
     def __str__(self):
         return self.label

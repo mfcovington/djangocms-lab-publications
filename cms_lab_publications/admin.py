@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 
 from .models import Publication, PublicationSet
+from taggit.models import TaggedItem
 
 
 class PublicationInline(admin.TabularInline):
@@ -9,6 +11,13 @@ class PublicationInline(admin.TabularInline):
     verbose_name = "Publication"
     verbose_name_plural = "Publications"
     ordering = ('-publication__year',)
+
+
+class TaggedItemInline(GenericTabularInline):
+    model = TaggedItem
+    verbose_name = "Tag"
+    verbose_name_plural = "Tags"
+    ordering = ('tag__name',)
 
 
 class PublicationAdmin(admin.ModelAdmin):
@@ -48,11 +57,14 @@ class PublicationAdmin(admin.ModelAdmin):
         ],
     })
 
-
     fieldsets = [
         fieldset_pubmed_query,
         fieldset_files,
         fieldset_pubmed_metadata,
+    ]
+
+    inlines = [
+        TaggedItemInline,
     ]
 
     list_display = (
@@ -64,6 +76,7 @@ class PublicationAdmin(admin.ModelAdmin):
         'title',
     )
     list_filter = (
+        'tags',
         'journal',
         'year',
     )
@@ -93,12 +106,16 @@ class PublicationSetAdmin(admin.ModelAdmin):
 
     inlines = [
         PublicationInline,
+        TaggedItemInline,
     ]
 
     list_display = (
         'name',
         'label',
         'description',
+    )
+    list_filter = (
+        'tags',
     )
 
     search_fields = (

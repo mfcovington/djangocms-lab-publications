@@ -1,0 +1,27 @@
+{% load cms_tags sekizai_tags staticfiles %}
+
+
+{% block content %}
+
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{% static 'cms_lab_publications/app.css' %}">
+  {% endaddtoblock %}
+
+  <h2>{{ instance.publication_set.label }}</h2>
+
+  {% for publication in instance.publication_set.publications.all %}
+    <p>
+      {{ publication.citation }}
+      <span class="btn-group btn-group-xs" role="group" aria-label="publication-buttons">
+        {% include "cms_lab_publications/_buttons.html" %}
+      </span>
+    </p>
+  {% endfor %}
+
+
+  {% for publication in instance.publication_set.publications.all %}
+    {% include "cms_lab_publications/_modal.html" %}
+  {% endfor %}
+
+
+{% endblock content %}

@@ -1,0 +1,40 @@
+<div class="modal fade" id="modal-pub-{{ publication.id }}" tabindex="-1" role="dialog" aria-labelledby="modal-header-pub-{{ publication.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modal-header-pub-{{ publication.id }}">{{ publication.title }}</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          {{ publication.abstract|linebreaks }}
+        </div>
+      </div>
+
+      <div class="modal-footer hidden-xs">
+        <div class="btn-group" role="group" aria-label="...">
+          {% include "cms_lab_publications/_buttons.html" %}
+        </div>
+        <div class="btn-group" role="group" aria-label="...">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-footer hidden-xs -->
+
+      <div class="modal-footer visible-xs">
+        <div class="container-fluid">
+          <div class="row-fluid">
+            <div class="btn-group-vertical col-xs-12" role="group" aria-label="...">
+              {% include "cms_lab_publications/_buttons.html" %}
+            </div>
+            <div class="btn-group-vertical col-xs-12" role="group" aria-label="...">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.modal-footer visible-xs -->
+
+    </div>
+  </div>
+</div>

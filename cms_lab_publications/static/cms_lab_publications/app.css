@@ -1,0 +1,11 @@
+/**********/
+/* Modals */
+/**********/
+
+.modal-footer .btn-group-vertical .btn + .btn {
+  margin-left: 0px;
+}
+
+.modal-footer .btn-group-vertical + .btn-group-vertical {
+  margin-top: 5px;
+}

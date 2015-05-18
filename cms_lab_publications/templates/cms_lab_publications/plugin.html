@@ -32,6 +32,10 @@
           </li>
         {% endfor %}
       </ul>
+
+      <div class="text-center">
+        <ul class="pagination"></ul>
+      </div>
     </form>
   </div>
 
@@ -41,9 +45,14 @@
 
   {% addtoblock "js" %}
     <script src="{% static 'cms_lab_publications/js/list.min.js' %}"></script>
+    <script src="{% static 'cms_lab_publications/js/list.pagination.min.js' %}"></script>
     <script>
       var options = {
         valueNames: [ 'abstract', 'authors', 'citation' ],
+        page: 5,
+        plugins: [
+          ListPagination({})
+        ],
       };
       var pubList = new List('publication-list', options);
     </script>

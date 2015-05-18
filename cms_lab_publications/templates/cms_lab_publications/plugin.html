@@ -7,21 +7,46 @@
     <link rel="stylesheet" type="text/css" href="{% static 'cms_lab_publications/app.css' %}">
   {% endaddtoblock %}
 
-  <h2>{{ instance.publication_set.label }}</h2>
+  <div id="publication-list">
+    <form style="display:inline;">
+      <h4>{{ instance.publication_set.label }}</h4>
 
-  {% for publication in instance.publication_set.publications.all %}
-    <p>
-      {{ publication.citation }}
-      <span class="btn-group btn-group-xs" role="group" aria-label="publication-buttons">
-        {% include "cms_lab_publications/_buttons.html" %}
-      </span>
-    </p>
-  {% endfor %}
+      <div class="form-group has-feedback">
+        <input class="search form-control input-sm" type="text" placeholder="Search" />
+        <i class="glyphicon glyphicon-search form-control-feedback"></i>
+      </div>
 
+      <ul class="list" style="list-style: none; padding-left: 0;">
+        {% for publication in instance.publication_set.publications.all %}
+          <li>
+            <p class="citation">
+              {{ publication.citation }}
+              <span class="btn-group btn-group-xs" role="group" aria-label="publication-buttons">
+                {% include "cms_lab_publications/_buttons.html" %}
+              </span>
+            </p>
+
+            <!-- Hidden search fields -->
+            <p class="abstract" style="display: none;">{{ publication.abstract }}</p>
+            <p class="authors" style="display: none;">{{ publication.authors }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </form>
+  </div>
 
   {% for publication in instance.publication_set.publications.all %}
     {% include "cms_lab_publications/_modal.html" %}
   {% endfor %}
 
+  {% addtoblock "js" %}
+    <script src="{% static 'cms_lab_publications/js/list.min.js' %}"></script>
+    <script>
+      var options = {
+        valueNames: [ 'abstract', 'authors', 'citation' ],
+      };
+      var pubList = new List('publication-list', options);
+    </script>
+  {% endaddtoblock %}
 
 {% endblock content %}

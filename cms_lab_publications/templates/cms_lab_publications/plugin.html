@@ -33,9 +33,11 @@
         {% endfor %}
       </ul>
 
-      <div class="text-center">
-        <ul class="pagination"></ul>
-      </div>
+      {% if instance.publication_set.pagination %}
+        <div class="text-center">
+          <ul class="pagination"></ul>
+        </div>
+      {% endif %}
     </form>
   </div>
 
@@ -45,14 +47,22 @@
 
   {% addtoblock "js" %}
     <script src="{% static 'cms_lab_publications/js/list.min.js' %}"></script>
-    <script src="{% static 'cms_lab_publications/js/list.pagination.min.js' %}"></script>
+
+    {% if instance.publication_set.pagination %}
+      <script src="{% static 'cms_lab_publications/js/list.pagination.min.js' %}"></script>
+    {% endif %}
+
     <script>
       var options = {
         valueNames: [ 'abstract', 'authors', 'citation' ],
-        page: 5,
-        plugins: [
-          ListPagination({})
-        ],
+
+        {% if instance.publication_set.pagination %}
+          page: {{ instance.publication_set.pagination }},
+          plugins: [
+            ListPagination({})
+          ],
+        {% endif %}
+
       };
       var pubList = new List('publication-list', options);
     </script>

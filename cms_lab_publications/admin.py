@@ -97,6 +97,7 @@ class PublicationSetAdmin(admin.ModelAdmin):
             'name',
             'label',
             'description',
+            'pagination',
         ],
     })
 

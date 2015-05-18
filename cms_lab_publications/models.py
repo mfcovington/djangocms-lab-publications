@@ -163,6 +163,13 @@ class PublicationSet(models.Model):
         help_text='Enter a description of this Publication Set.',
     )
 
+    pagination = models.PositiveIntegerField('pagination',
+        default=5,
+        help_text="How many publications should be displayed per page? " \
+                  "To show all at once, enter '0'. " \
+                  "Server may need to be restarted for changes to take effect.",
+    )
+
     publications = models.ManyToManyField(Publication)
 
     tags = TaggableManager()

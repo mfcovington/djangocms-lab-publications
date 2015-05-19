@@ -72,20 +72,7 @@
           return success;
       }
 
-      $( ".pub-tags-select" ).change(function() {
-        var query = $(this).val();
-        $("li[tags]").each(function() {
-          var pub_tags = $(this).attr('tags').trim().split(/\s+/);
-          if (containsAll(query, pub_tags)) {
-            $(this).show();
-          }
-          else {
-            $(this).hide();
-          }
-        });
-      });
-
-      $( "#pub-search" ).keyup(function() {
+      function updatePubList(argument) {
         var query = $( ".pub-tags-select" ).val();
         $("li[tags]").each(function() {
           var pub_tags = $(this).attr('tags').trim().split(/\s+/);
@@ -96,6 +83,14 @@
             $(this).hide();
           }
         });
+      }
+
+      $( ".pub-tags-select" ).change(function() {
+        updatePubList();
+      });
+
+      $( "#pub-search" ).keyup(function() {
+        updatePubList();
       });
     </script>
 

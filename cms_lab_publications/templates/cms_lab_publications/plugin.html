@@ -13,7 +13,7 @@
       <h4>{{ instance.publication_set.label }}</h4>
 
       <div class="form-group has-feedback">
-        <input class="search form-control" type="text" placeholder="Search" />
+        <input id="pub-search" class="search form-control" type="text" placeholder="Search" />
         <i class="glyphicon glyphicon-search form-control-feedback"></i>
       </div>
 
@@ -74,6 +74,19 @@
 
       $( ".pub-tags-select" ).change(function() {
         var query = $(this).val();
+        $("li[tags]").each(function() {
+          var pub_tags = $(this).attr('tags').trim().split(/\s+/);
+          if (containsAll(query, pub_tags)) {
+            $(this).show();
+          }
+          else {
+            $(this).hide();
+          }
+        });
+      });
+
+      $( "#pub-search" ).keyup(function() {
+        var query = $( ".pub-tags-select" ).val();
         $("li[tags]").each(function() {
           var pub_tags = $(this).attr('tags').trim().split(/\s+/);
           if (containsAll(query, pub_tags)) {

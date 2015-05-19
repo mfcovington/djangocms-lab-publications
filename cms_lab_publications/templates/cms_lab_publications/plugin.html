@@ -23,6 +23,8 @@
         {% endfor %}
       </select>
 
+      <button type="button" class="btn btn-danger btn-sm" onclick="$( '.pub-tags-select' ).val(null).trigger('change'); $( '#pub-search' ).val(null); pubList.search();">Reset Search/Filter</button>
+
       <ul class="list" style="list-style: none; padding-left: 0;">
         {% for publication in instance.publication_set.publications.all %}
           <li>

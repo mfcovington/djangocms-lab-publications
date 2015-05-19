@@ -12,18 +12,26 @@
     <form style="display:inline;">
       <h4>{{ instance.publication_set.label }}</h4>
 
-      <div class="form-group has-feedback">
-        <input id="pub-search" class="search form-control" type="text" placeholder="Search" />
-        <i class="glyphicon glyphicon-search form-control-feedback"></i>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group has-feedback">
+            <input id="pub-search" class="search form-control" type="text" placeholder="Search" />
+            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+          </div>
+        </div>
+
+        <div class="col-sm-5">
+          <select class="pub-tags-select" multiple="multiple" style="width: 100%;">
+            {% for id, tag in pub_set_tags.items %}
+              <option value="{{ id }}">{{ tag }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-sm-3">
+          <button type="button" class="btn btn-danger" onclick="$( '.pub-tags-select' ).val(null).trigger('change'); $( '#pub-search' ).val(null); pubList.search();">Reset Search/Filter</button>
+        </div>
       </div>
-
-      <select class="pub-tags-select" multiple="multiple" style="width: 100%;">
-        {% for id, tag in pub_set_tags.items %}
-          <option value="{{ id }}">{{ tag }}</option>
-        {% endfor %}
-      </select>
-
-      <button type="button" class="btn btn-danger btn-sm" onclick="$( '.pub-tags-select' ).val(null).trigger('change'); $( '#pub-search' ).val(null); pubList.search();">Reset Search/Filter</button>
 
       <ul class="list" style="list-style: none; padding-left: 0;">
         {% for publication in instance.publication_set.publications.all %}

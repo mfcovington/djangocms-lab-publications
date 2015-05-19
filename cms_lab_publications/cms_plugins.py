@@ -1,3 +1,6 @@
+import collections
+import operator
+
 from django.core.urlresolvers import reverse
 
 from cms.plugin_base import CMSPluginBase
@@ -13,7 +16,17 @@ class CMSPublicationSetPlugin(CMSPluginBase):
     render_template = "cms_lab_publications/plugin.html"
 
     def render(self, context, instance, placeholder):
-        context.update({'instance': instance,})
+        pub_set_tags = {}
+        pub_set = instance.publication_set.publications.all()
+        for pub in pub_set:
+            for tag in pub.tags.all():
+                pub_set_tags[tag.id] = tag.name
+        pub_set_tags = collections.OrderedDict(sorted(pub_set_tags.items(), key=operator.itemgetter(1)))
+
+        context.update({
+            'instance': instance,
+            'pub_set_tags': pub_set_tags,
+        })
 
         menu = context['request'].toolbar.get_or_create_menu('publication-set-menu','Publication Set')
 

@@ -55,6 +55,37 @@
   {% addtoblock "js" %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
+    <script>
+      // Based on: http://stackoverflow.com/a/9204307/996114
+      function containsAll(query, target) {
+          var success;
+
+          if (query === null) {
+            success = true;
+          }
+          else{
+            success = $.grep(query, function(n, i) {
+                return $.inArray(n, target) !== -1;
+            }).length === query.length;
+          };
+
+          return success;
+      }
+
+      $( ".pub-tags-select" ).change(function() {
+        var query = $(this).val();
+        $("li[tags]").each(function() {
+          var pub_tags = $(this).attr('tags').trim().split(/\s+/);
+          if (containsAll(query, pub_tags)) {
+            $(this).show();
+          }
+          else {
+            $(this).hide();
+          }
+        });
+      });
+    </script>
+
     <script type="text/javascript">
       $(".pub-tags-select").select2({
           placeholder: "Filter by Tags",

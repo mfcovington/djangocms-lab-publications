@@ -5,6 +5,7 @@
 
   {% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{% static 'cms_lab_publications/app.css' %}">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
   {% endaddtoblock %}
 
   <div id="publication-list">
@@ -15,6 +16,12 @@
         <input class="search form-control input-sm" type="text" placeholder="Search" />
         <i class="glyphicon glyphicon-search form-control-feedback"></i>
       </div>
+
+      <select class="pub-tags-select" multiple="multiple" style="width: 100%;">
+        {% for id, tag in pub_set_tags.items %}
+          <option value="{{ id }}">{{ tag }}</option>
+        {% endfor %}
+      </select>
 
       <ul class="list" style="list-style: none; padding-left: 0;">
         {% for publication in instance.publication_set.publications.all %}
@@ -46,6 +53,14 @@
   {% endfor %}
 
   {% addtoblock "js" %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+      $(".pub-tags-select").select2({
+          placeholder: "Filter by Tags",
+      });
+    </script>
+
     <script src="{% static 'cms_lab_publications/js/list.min.js' %}"></script>
 
     {% if instance.publication_set.pagination %}

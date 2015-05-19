@@ -25,7 +25,7 @@
 
       <ul class="list" style="list-style: none; padding-left: 0;">
         {% for publication in instance.publication_set.publications.all %}
-          <li tags="{% for tag in publication.tags.values %}{{ tag.id }} {% endfor %}">
+          <li>
             <p class="citation">
               {{ publication.citation }}
               <span class="btn-group btn-group-xs" role="group" aria-label="publication-buttons">
@@ -36,6 +36,7 @@
             <!-- Hidden search fields -->
             <p class="abstract" style="display: none;">{{ publication.abstract }}</p>
             <p class="authors" style="display: none;">{{ publication.authors }}</p>
+            <p class="tags" style="display: none;">{% for tag in publication.tags.values %}{{ tag.id }} {% endfor %}</p>
           </li>
         {% endfor %}
       </ul>
@@ -72,25 +73,24 @@
           return success;
       }
 
-      function updatePubList(argument) {
-        var query = $( ".pub-tags-select" ).val();
-        $("li[tags]").each(function() {
-          var pub_tags = $(this).attr('tags').trim().split(/\s+/);
+      function filterByTags(list) {
+        pubList.filter(function(item) {
+          var query = $( ".pub-tags-select" ).val();
+          var pub_tags = item.values().tags.trim().split(/\s+/);
           if (containsAll(query, pub_tags)) {
-            $(this).show();
-          }
-          else {
-            $(this).hide();
+            return true;
+          } else {
+            return false;
           }
         });
       }
 
       $( ".pub-tags-select" ).change(function() {
-        updatePubList();
+        filterByTags(pubList);
       });
 
       $( "#pub-search" ).keyup(function() {
-        updatePubList();
+        filterByTags(pubList);
       });
     </script>
 
@@ -108,7 +108,7 @@
 
     <script>
       var options = {
-        valueNames: [ 'abstract', 'authors', 'citation' ],
+        valueNames: [ 'abstract', 'authors', 'citation', 'tags' ],
 
         {% if instance.publication_set.pagination %}
           page: {{ instance.publication_set.pagination }},

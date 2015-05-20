@@ -12,7 +12,7 @@
     <form style="display:inline;">
       <h4>
         {{ instance.publication_set.label }}
-        <button type="button" class="btn btn-default btn-xs" onclick="$( '#search-filter-pubs' ).toggle(); $( '#pub-search' ).focus();">
+        <button type="button" class="btn btn-default btn-xs" onclick="$( '#search-filter-pubs' ).toggle(); $( '#pub-search' ).focus(); $(this).blur()">
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
         </button>
       </h4>

@@ -18,11 +18,15 @@
       </h4>
 
       <div id="search-filter-pubs" class="row" style="display: none;">
-        <div class="col-sm-4">
-          <input id="pub-search" class="search form-control" type="text" placeholder="Search" />
+        <div class="col-xs-9 col-sm-5 search-container">
+          <input id="pub-search" class="search form-control" type="text" placeholder="Search Publications" />
         </div>
 
-        <div class="col-sm-5">
+        <div class="col-xs-1 col-sm-push-5">
+          <button type="button" class="btn btn-danger" onclick="$( '.pub-tags-select' ).val(null).trigger('change'); $( '#pub-search' ).val(null); pubList.search(); $( '#pub-search' ).focus();"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+        </div>
+
+        <div class="col-xs-9 col-sm-5 col-sm-pull-1 filter-container">
           <select class="pub-tags-select" multiple="multiple" style="width: 100%;">
             {% for id, tag in pub_set_tags.items %}
               <option value="{{ id }}">{{ tag }}</option>
@@ -30,9 +34,6 @@
           </select>
         </div>
 
-        <div class="col-sm-3">
-          <button type="button" class="btn btn-danger" onclick="$( '.pub-tags-select' ).val(null).trigger('change'); $( '#pub-search' ).val(null); pubList.search(); $( '#pub-search' ).focus();">Reset Search/Filter</button>
-        </div>
       </div>
 
       <ul class="list" style="list-style: none; padding-left: 0;">
@@ -45,7 +46,7 @@
               </span>
             </p>
 
-            <!-- Hidden search fields -->
+            <!-- Hidden search/filter fields -->
             <p class="abstract" style="display: none;">{{ publication.abstract }}</p>
             <p class="authors" style="display: none;">{{ publication.authors }}</p>
             <p class="tags" style="display: none;">{% for tag in publication.tags.values %}{{ tag.id }} {% endfor %}</p>
@@ -108,7 +109,7 @@
 
     <script type="text/javascript">
       $(".pub-tags-select").select2({
-          placeholder: "Filter by Tags",
+          placeholder: "Filter Keywords",
       });
     </script>
 

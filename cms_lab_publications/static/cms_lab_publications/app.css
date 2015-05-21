@@ -14,6 +14,19 @@
 /*****************/
 /* Search/Filter */
 /*****************/
+
+#search-filter-pubs {
+  margin-bottom: 10px;
+}
+.search-container, .filter-container {
+  padding-right: 0;
+}
+@media screen and (max-width: 767px) {
+  .filter-container {
+    margin-top: 7px;
+  }
+}
+
 /* Make Filter Combo box style more consistent with Search box */
 span.select2-selection.select2-selection--multiple {
   border-color: #ccc;

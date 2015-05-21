@@ -136,6 +136,11 @@
 
     <script>
       // Make Filter Combo box style more consistent with Search box
+      // These get overridden by select2.min.css is set in app.css
+      $('.select2-search__field').css({
+        'margin-top': '6px',
+        'padding': '0',
+      });
       $('.select2-selection__rendered').css('padding', '0 12px');
     </script>
   {% endaddtoblock %}

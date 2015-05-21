@@ -30,4 +30,5 @@
 /* Make Filter Combo box style more consistent with Search box */
 span.select2-selection.select2-selection--multiple {
   border-color: #ccc;
+  min-height: 34px;
 }

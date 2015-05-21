@@ -4,8 +4,8 @@
 {% block content %}
 
   {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{% static 'cms_lab_publications/app.css' %}">
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'cms_lab_publications/app.css' %}">
   {% endaddtoblock %}
 
   <div id="publication-list">
@@ -131,6 +131,11 @@
 
       };
       var pubList = new List('publication-list', options);
+    </script>
+
+    <script>
+      // Make Filter Combo box style more consistent with Search box
+      $('.select2-selection__rendered').css('padding', '0 12px');
     </script>
   {% endaddtoblock %}
 

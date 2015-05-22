@@ -172,6 +172,11 @@ class PublicationSet(models.Model):
 
     publications = models.ManyToManyField(Publication)
 
+    searchable = models.BooleanField('searchable?',
+        default=True,
+        help_text='Enable publication search and keyword filter.',
+    )
+
     tags = TaggableManager()
 
     def __str__(self):

@@ -98,6 +98,7 @@ class PublicationSetAdmin(admin.ModelAdmin):
             'label',
             'description',
             'pagination',
+            'searchable',
         ],
     })
 
@@ -114,6 +115,7 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'name',
         'label',
         'description',
+        'searchable',
     )
     list_filter = (
         'tags',

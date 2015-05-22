@@ -4,14 +4,20 @@
 {% block content %}
 
   {% addtoblock "css" %}
-    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    {% if instance.publication_set.searchable %}
+      <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    {% endif %}
     <link rel="stylesheet" type="text/css" href="{% static 'cms_lab_publications/app.css' %}">
   {% endaddtoblock %}
 
   <div id="publication-list">
     <form style="display:inline;">
 
+    {% if instance.publication_set.searchable %}
       {% include "cms_lab_publications/_header-with-search-filter.html" with publication_set=instance.publication_set %}
+    {% else %}
+      <h4>{{ instance.publication_set.label }}</h4>
+    {% endif %}
 
       <ul class="list" style="list-style: none; padding-left: 0;">
         {% for publication in instance.publication_set.publications.all %}
@@ -23,10 +29,12 @@
               </span>
             </p>
 
-            <!-- Hidden search/filter fields -->
-            <p class="abstract" style="display: none;">{{ publication.abstract }}</p>
-            <p class="authors" style="display: none;">{{ publication.authors }}</p>
-            <p class="tags" style="display: none;">{% for tag in publication.tags.values %}{{ tag.id }} {% endfor %}</p>
+            {% if instance.publication_set.searchable %}
+              <!-- Hidden search/filter fields -->
+              <p class="abstract" style="display: none;">{{ publication.abstract }}</p>
+              <p class="authors" style="display: none;">{{ publication.authors }}</p>
+              <p class="tags" style="display: none;">{% for tag in publication.tags.values %}{{ tag.id }} {% endfor %}</p>
+            {% endif %}
           </li>
         {% endfor %}
       </ul>
@@ -44,10 +52,6 @@
   {% endfor %}
 
   {% addtoblock "js" %}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-
-    <script src="{% static 'cms_lab_publications/js/search-filter-pubs.js' %}"></script>
-
     <script src="{% static 'cms_lab_publications/js/list.min.js' %}"></script>
 
     {% if instance.publication_set.pagination %}
@@ -68,6 +72,11 @@
       };
       var pubList = new List('publication-list', options);
     </script>
+
+    {% if instance.publication_set.searchable %}
+      <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+      <script src="{% static 'cms_lab_publications/js/search-filter-pubs.js' %}"></script>
+    {% endif %}
   {% endaddtoblock %}
 
 {% endblock content %}

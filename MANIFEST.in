@@ -1,0 +1,5 @@
+include CHANGELOG
+include LICENSE
+include README.md
+recursive-include cms_lab_publications/static *
+recursive-include cms_lab_publications/templates *

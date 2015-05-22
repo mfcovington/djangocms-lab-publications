@@ -1,0 +1,13 @@
+{% if publication.abstract %}
+  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-pub-{{ publication.id }}"></span>Abstract</button>
+{% endif %}
+
+<a href="{{ publication.pubmed_url }}" class="btn btn-default" target="_blank">PubMed</a>
+
+{% if publication.url %}
+  <a href="{{ publication.url }}" class="btn btn-default" target="_blank">{{ publication.journal }}</a>
+{% endif %}
+
+{% if publication.pdf %}
+  <a href="{{ publication.pdf.url }}" class="btn btn-default" target="_blank">PDF</a>
+{% endif %}

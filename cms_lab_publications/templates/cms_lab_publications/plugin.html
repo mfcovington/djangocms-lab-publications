@@ -10,31 +10,8 @@
 
   <div id="publication-list">
     <form style="display:inline;">
-      <h4>
-        {{ instance.publication_set.label }}
-        <button type="button" class="btn btn-default btn-xs" onclick="$( '.pub-tags-select' ).val(null).trigger('change'); $( '#pub-search' ).val(null); pubList.search(); $( '#search-filter-pubs' ).toggle(); $( '#pub-search' ).focus(); $(this).blur()">
-          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-        </button>
-      </h4>
 
-      <div id="search-filter-pubs" class="row" style="display: none;">
-        <div class="col-xs-9 col-sm-5 search-container">
-          <input id="pub-search" class="search form-control" type="text" placeholder="Search Publications" />
-        </div>
-
-        <div class="col-xs-1 col-sm-push-5">
-          <button type="button" class="btn btn-danger" onclick="$( '.pub-tags-select' ).val(null).trigger('change'); $( '#pub-search' ).val(null); pubList.search(); $( '#pub-search' ).focus();"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        </div>
-
-        <div class="col-xs-9 col-sm-5 col-sm-pull-1 filter-container">
-          <select class="pub-tags-select" multiple="multiple" style="width: 100%;">
-            {% for id, tag in pub_set_tags.items %}
-              <option value="{{ id }}">{{ tag }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-      </div>
+      {% include "cms_lab_publications/_header-with-search-filter.html" with publication_set=instance.publication_set %}
 
       <ul class="list" style="list-style: none; padding-left: 0;">
         {% for publication in instance.publication_set.publications.all %}

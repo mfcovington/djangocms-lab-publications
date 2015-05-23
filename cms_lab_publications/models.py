@@ -180,10 +180,10 @@ class PublicationSet(models.Model):
     tags = TaggableManager()
 
     def __str__(self):
-        return self.label
+        return self.name
 
     class Meta:
-        ordering = ('label',)
+        ordering = ('name',)
 
 
 class PublicationSetPlugin(CMSPlugin):

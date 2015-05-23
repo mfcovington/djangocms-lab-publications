@@ -13,7 +13,6 @@ CMS Lab Publications is a Django app for adding sets of scientific publications 
         ```python
         INSTALLED_APPS = (
             ...
-            'pubmed_lookup',
             'taggit',
             'cms_lab_publications',
             'easy_thumbnails',

@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'cms_lab_publications/app.css' %}">
   {% endaddtoblock %}
 
-  <div id="publication-list">
+  <div id="publication-list-ps{{ instance.publication_set.id }}-i{{ instance.id }}">
     <form style="display:inline;">
 
     {% if instance.publication_set.searchable %}
@@ -58,6 +58,11 @@
       <script src="{% static 'cms_lab_publications/js/list.pagination.min.js' %}"></script>
     {% endif %}
 
+    {% if instance.publication_set.searchable %}
+      <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+      <script src="{% static 'cms_lab_publications/js/search-filter-pubs.js' %}"></script>
+    {% endif %}
+
     <script>
       var options = {
         valueNames: [ 'abstract', 'authors', 'citation', 'tags' ],
@@ -70,13 +75,21 @@
         {% endif %}
 
       };
-      var pubList = new List('publication-list', options);
+      var pubListPs{{ instance.publication_set.id}}I{{ instance.id }} = new List('publication-list-ps{{ instance.publication_set.id }}-i{{ instance.id }}', options);
+
+      $( "#pub-tags-select-ps{{ instance.publication_set.id}}-i{{ instance.id }}" ).change(function() {
+        filterByTags(pubListPs{{ instance.publication_set.id}}I{{ instance.id }}, "pub-tags-select-ps{{ instance.publication_set.id}}-i{{ instance.id }}");
+      });
+
+      $( "#pub-search-ps{{ instance.publication_set.id}}-i{{ instance.id }}" ).keyup(function() {
+        filterByTags(pubListPs{{ instance.publication_set.id}}I{{ instance.id }}, "pub-tags-select-ps{{ instance.publication_set.id}}-i{{ instance.id }}");
+      });
+
+      $("#pub-tags-select-ps{{ instance.publication_set.id}}-i{{ instance.id }}").select2({
+          placeholder: "Filter Keywords",
+      });
     </script>
 
-    {% if instance.publication_set.searchable %}
-      <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-      <script src="{% static 'cms_lab_publications/js/search-filter-pubs.js' %}"></script>
-    {% endif %}
   {% endaddtoblock %}
 
 {% endblock content %}

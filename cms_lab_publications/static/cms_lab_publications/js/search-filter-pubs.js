@@ -14,9 +14,9 @@ function containsAll(query, target) {
     return success;
 }
 
-function filterByTags(list) {
-  pubList.filter(function(item) {
-    var query = $( ".pub-tags-select" ).val();
+function filterByTags(list, comboBoxId) {
+  list.filter(function(item) {
+    var query = $( "#" + comboBoxId ).val();
     var pub_tags = item.values().tags.trim().split(/\s+/);
     if (containsAll(query, pub_tags)) {
       return true;
@@ -25,18 +25,6 @@ function filterByTags(list) {
     }
   });
 }
-
-$( ".pub-tags-select" ).change(function() {
-  filterByTags(pubList);
-});
-
-$( "#pub-search" ).keyup(function() {
-  filterByTags(pubList);
-});
-
-$(".pub-tags-select").select2({
-    placeholder: "Filter Keywords",
-});
 
 // Make Filter Combo box style more consistent with Search box
 // These get overridden by select2.min.css is set in app.css

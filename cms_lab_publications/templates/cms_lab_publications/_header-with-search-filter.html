@@ -1,21 +1,21 @@
 <h4>
   {{ publication_set.label }}
-  <button type="button" class="btn btn-default btn-xs" onclick="$( '.pub-tags-select' ).val(null).trigger('change'); $( '#pub-search' ).val(null); pubList.search(); $( '#search-filter-pubs' ).toggle(); $( '#pub-search' ).focus(); $(this).blur()">
+  <button type="button" class="btn btn-default btn-xs" onclick="$( '#pub-tags-select-ps{{ publication_set.id}}-i{{ instance.id }}' ).val(null).trigger('change'); $( '#pub-search-ps{{ publication_set.id}}-i{{ instance.id }}' ).val(null); pubListPs{{ publication_set.id}}I{{ instance.id }}.search(); $( '#search-filter-pubs-ps{{ publication_set.id }}-i{{ instance.id }}' ).toggle(); $( '#pub-search-ps{{ publication_set.id}}-i{{ instance.id }}' ).focus(); $(this).blur()">
     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
   </button>
 </h4>
 
-<div id="search-filter-pubs" class="row" style="display: none;">
+<div id="search-filter-pubs-ps{{ publication_set.id }}-i{{ instance.id }}" class="row search-filter-pubs" style="display: none;">
   <div class="col-xs-9 col-sm-5 search-container">
-    <input id="pub-search" class="search form-control" type="text" placeholder="Search Publications" />
+    <input id="pub-search-ps{{ publication_set.id}}-i{{ instance.id }}" class="search form-control" type="text" placeholder="Search Publications" />
   </div>
 
   <div class="col-xs-1 col-sm-push-5">
-    <button type="button" class="btn btn-danger" onclick="$( '.pub-tags-select' ).val(null).trigger('change'); $( '#pub-search' ).val(null); pubList.search(); $( '#pub-search' ).focus();"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+    <button type="button" class="btn btn-danger" onclick="$( '#pub-tags-select-ps{{ publication_set.id}}-i{{ instance.id }}' ).val(null).trigger('change'); $( '#pub-search-ps{{ publication_set.id}}-i{{ instance.id }}' ).val(null); pubListPs{{ publication_set.id}}I{{ instance.id }}.search(); $( '#pub-search-ps{{ publication_set.id}}-i{{ instance.id }}' ).focus();"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
   </div>
 
   <div class="col-xs-9 col-sm-5 col-sm-pull-1 filter-container">
-    <select class="pub-tags-select" multiple="multiple" style="width: 100%;">
+    <select id="pub-tags-select-ps{{ publication_set.id}}-i{{ instance.id }}" multiple="multiple" style="width: 100%;">
       {% for id, tag in pub_set_tags.items %}
         <option value="{{ id }}">{{ tag }}</option>
       {% endfor %}

@@ -62,6 +62,6 @@ CMS Lab Publications is a Django app for adding sets of scientific publications 
 
 - Start the development server (`python manage.py runserver`) and visit http://127.0.0.1:8000/
 
-- Create a CMS page and insert the `Publications Plugin` into a placeholder field.
+- Create a CMS page and insert the `Publication Set Plugin` into a placeholder field.
 
 *Version 0.1.1*

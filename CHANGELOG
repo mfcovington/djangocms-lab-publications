@@ -1,5 +1,10 @@
 Revision history for Django app djangocms-lab-publications
 
+0.1.1 2015-05-23
+
+  - Allow multiple Publication Set plugins per page
+  - Use Publication Set's name, not label, for __str__ and ordering
+
 0.1.0 2015-05-22
 
   - A Django app for adding sets of scientific publications with PubMed metadata to a Django site with django CMS-specific features

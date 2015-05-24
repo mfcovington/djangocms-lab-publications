@@ -56,9 +56,9 @@ CMS Lab Publications is a Django app for adding sets of scientific publications 
         THUMBNAIL_SUBDIR = 'versions'
         ```
 
-- Run `python manage.py makemigrations cms_lab_publications` to create the cms_lab_publications migrations.
+- Run `python manage.py makemigrations cms_lab_publications` to create the `cms_lab_publications` migrations.
 
-- Run `python manage.py migrate` to create the cms_lab_publications models.
+- Run `python manage.py migrate` to create the `cms_lab_publications` models.
 
 - If `cms_lab_publications` is used in a project served by Apache, a config directory must be created within the Apache user's home directory. This config directory is used by code within biopython's `Bio.Entrez.Parser.DataHandler` which is used by `pubmed_lookup`, a dependency of `cms_lab_publications`.
 

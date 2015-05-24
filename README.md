@@ -60,6 +60,18 @@ CMS Lab Publications is a Django app for adding sets of scientific publications 
 
 - Run `python manage.py migrate` to create the cms_lab_publications models.
 
+- If `cms_lab_publications` is used in a project served by Apache, a config directory must be created within the Apache user's home directory. This config directory is used by code within biopython's `Bio.Entrez.Parser.DataHandler` which is used by `pubmed_lookup`, a dependency of `cms_lab_publications`.
+
+    ```sh
+    # In this snippet, the Apache user is 'www-data' and
+    # the Apache user's home directory is '/var/www/'
+    sudo su - root
+    cd /var/www/
+    chown :www-data
+    chmod g+s 
+    mkdir -p /var/www/.config/biopython/Bio/Entrez/DTDs
+    ```
+
 - Start the development server (`python manage.py runserver`) and visit http://127.0.0.1:8000/
 
 - Create a CMS page and insert the `Publication Set Plugin` into a placeholder field.

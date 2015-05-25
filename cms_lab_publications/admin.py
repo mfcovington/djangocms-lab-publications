@@ -13,6 +13,14 @@ class PublicationInline(admin.TabularInline):
     ordering = ('-publication__year',)
 
 
+class PublicationSetInline(admin.TabularInline):
+    model = PublicationSet.publications.through
+    extra = 1
+    verbose_name = "Associated Publication Set"
+    verbose_name_plural = "Associated Publication Sets"
+    ordering = ('publicationset__name',)
+
+
 class TaggedItemInline(GenericTabularInline):
     model = TaggedItem
     verbose_name = "Tag"
@@ -64,6 +72,7 @@ class PublicationAdmin(admin.ModelAdmin):
     ]
 
     inlines = [
+        PublicationSetInline,
         TaggedItemInline,
     ]
 

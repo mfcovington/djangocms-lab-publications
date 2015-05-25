@@ -8,8 +8,8 @@ from taggit.models import TaggedItem
 class PublicationInline(admin.TabularInline):
     model = PublicationSet.publications.through
     extra = 3
-    verbose_name = "Publication"
-    verbose_name_plural = "Publications"
+    verbose_name = "Associated Publication"
+    verbose_name_plural = "Associated Publications"
     ordering = ('-publication__year',)
 
 

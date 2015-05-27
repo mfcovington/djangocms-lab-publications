@@ -1,5 +1,22 @@
 Revision history for Django app djangocms-lab-publications
 
+0.1.2 2015-05-27
+
+  - Expand documentation for installation and configuration
+  - Add mini_citation field to Publication
+    - Helps identify publication when in edit mode (without expanding PubMed Metadata fieldset)
+    - Helps naming associated files (PDF, Supplemental, and Image) by providing a base name
+    - Bumps `pubmed-lookup` dependency to version 0.1.1
+  - Many improvements to Publication and Publication Set Admins
+      - Rearrange Publication Admin fieldsets
+      - Add PublicationSetInline to PublicationAdmin
+      - Add save button across tops of Publication and Publication Set Admins
+      - Now Powered by Blackina
+      - Display whether a record has PDF/Supp/Image attachments in Publication Admin
+      - Filter PublicationAdmin by missing/existing attachments
+      - Filter Publication and Publication Set Admins by tags for the current model only
+      - Show (and sort by) 'number of publications' for records in Publication Set Admin
+
 0.1.1 2015-05-23
 
   - Allow multiple Publication Set plugins per page

@@ -35,9 +35,12 @@ class MissingAttachmentListFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return (
-            ('-pdf', 'No PDF'),
-            ('-sup', 'No Supplemental'),
-            ('-image', 'No Image'),
+            ('-pdf', 'Missing PDF'),
+            ('-sup', 'Missing Supplemental'),
+            ('-image', 'Missing Image'),
+            ('+pdf', 'Has PDF'),
+            ('+sup', 'Has Supplemental'),
+            ('+image', 'Has Image'),
         )
 
     def queryset(self, request, queryset):
@@ -47,6 +50,12 @@ class MissingAttachmentListFilter(admin.SimpleListFilter):
             return queryset.filter(supplemental_pdf=None)
         if self.value() == '-image':
             return queryset.filter(image=None)
+        if self.value() == '+pdf':
+            return queryset.exclude(pdf=None)
+        if self.value() == '+sup':
+            return queryset.exclude(supplemental_pdf=None)
+        if self.value() == '+image':
+            return queryset.exclude(image=None)
 
 
 class CurrentTagsListFilter(admin.SimpleListFilter):

@@ -166,8 +166,9 @@ class PublicationSet(models.Model):
         unique=True,
     )
     label = models.CharField('label',
+        default='Publications',
         help_text='Enter a label for this Publication Set. ' \
-                  'This may be displayed on the site.',
+                  'This will be the heading displayed above the publications.',
         max_length=255,
     )
     description = models.TextField('description',

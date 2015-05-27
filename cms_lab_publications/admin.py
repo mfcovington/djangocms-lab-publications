@@ -28,6 +28,26 @@ class TaggedItemInline(GenericTabularInline):
     ordering = ('tag__name',)
 
 
+class MissingAttachmentListFilter(admin.SimpleListFilter):
+    title = 'Missing Attachments'
+    parameter_name = 'attachment'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('-pdf', 'No PDF'),
+            ('-sup', 'No Supplemental'),
+            ('-image', 'No Image'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == '-pdf':
+            return queryset.filter(pdf=None)
+        if self.value() == '-sup':
+            return queryset.filter(supplemental_pdf=None)
+        if self.value() == '-image':
+            return queryset.filter(image=None)
+
+
 class PublicationAdmin(admin.ModelAdmin):
 
     fieldset_pubmed_query = ('PubMed Query', {
@@ -89,6 +109,7 @@ class PublicationAdmin(admin.ModelAdmin):
         'title',
     )
     list_filter = (
+        MissingAttachmentListFilter,
         'tags',
         'journal',
         'year',

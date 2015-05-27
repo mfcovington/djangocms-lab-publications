@@ -177,7 +177,7 @@ class PublicationSet(models.Model):
     )
 
     pagination = models.PositiveIntegerField('pagination',
-        default=5,
+        default=0,
         help_text="How many publications should be displayed per page? " \
                   "To show all at once, enter '0'. " \
                   "Server may need to be restarted for changes to take effect.",

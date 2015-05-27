@@ -34,6 +34,7 @@ class PublicationAdmin(admin.ModelAdmin):
         'fields': [
             'pmid',
             'pubmed_url',
+            'mini_citation',
         ],
     })
 

@@ -86,6 +86,10 @@ class Publication(models.Model):
     citation = models.TextField('citation',
         blank=True,
     )
+    mini_citation = models.CharField('mini citation',
+        blank=True,
+        max_length=255,
+    )
     abstract = models.TextField('abstract',
         blank=True,
     )
@@ -128,6 +132,7 @@ class Publication(models.Model):
             self.day = publication.day
             self.url = publication.url
             self.citation = publication.cite()
+            self.mini_citation = publication.cite_mini()
             self.abstract = publication.abstract
 
         super(Publication, self).save(*args, **kwargs)

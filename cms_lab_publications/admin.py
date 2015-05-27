@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
+from django.db.models import Count
 
 from .models import Publication, PublicationSet
 from taggit.models import TaggedItem
@@ -171,6 +172,7 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'label',
         'description',
         'pagination',
+        'number_of_publications',
         'searchable',
     )
     list_filter = (
@@ -182,5 +184,14 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'label',
         'description',
     )
+
+    def queryset(self, request):
+        queryset = super().queryset(request)
+        queryset = queryset.annotate(pub_count=Count('publications'))
+        return queryset
+
+    def number_of_publications(self, obj):
+        return obj.pub_count
+    number_of_publications.admin_order_field = 'pub_count'
 
 admin.site.register(PublicationSet, PublicationSetAdmin)

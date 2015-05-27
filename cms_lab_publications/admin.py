@@ -78,6 +78,7 @@ class PublicationAdmin(admin.ModelAdmin):
     ]
 
     readonly_fields = ('mini_citation',)
+    save_on_top = True
 
     list_display = (
         'pmid',
@@ -122,6 +123,8 @@ class PublicationSetAdmin(admin.ModelAdmin):
         PublicationInline,
         TaggedItemInline,
     ]
+
+    save_on_top = True
 
     list_display = (
         'name',

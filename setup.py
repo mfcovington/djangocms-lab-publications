@@ -12,12 +12,12 @@ install_requires = [
     "django-cms>=3.0",
     "django-filer>=0.9.9",
     "django-taggit>=0.14.0",
-    "pubmed-lookup>=0.1.0",
+    "pubmed-lookup>=0.1.1",
 ]
 
 setup(
     name='djangocms-lab-publications',
-    version='0.1.1',
+    version='0.1.2',
     packages=['cms_lab_publications'],
     include_package_data=True,
     license='BSD License',

@@ -127,6 +127,9 @@ class PublicationAdmin(admin.ModelAdmin):
         'last_author',
         'journal',
         'title',
+        'has_pdf',
+        'has_supplemental',
+        'has_image',
     )
     list_filter = (
         MissingAttachmentListFilter,
@@ -140,6 +143,18 @@ class PublicationAdmin(admin.ModelAdmin):
         'journal',
         'title',
     )
+
+    def has_pdf(self, obj):
+        return obj.pdf is not None
+    has_pdf.boolean = True
+
+    def has_supplemental(self, obj):
+        return obj.supplemental_pdf is not None
+    has_supplemental.boolean = True
+
+    def has_image(self, obj):
+        return obj.image is not None
+    has_image.boolean = True
 
 admin.site.register(Publication, PublicationAdmin)
 

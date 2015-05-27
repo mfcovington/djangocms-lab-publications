@@ -77,6 +77,8 @@ class PublicationAdmin(admin.ModelAdmin):
         TaggedItemInline,
     ]
 
+    readonly_fields = ('mini_citation',)
+
     list_display = (
         'pmid',
         'year',

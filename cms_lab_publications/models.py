@@ -29,21 +29,24 @@ class Publication(models.Model):
     pdf = FilerFileField(
         blank=True,
         null=True,
-        help_text='Upload/select a PDF for this publication.',
+        help_text="Upload/select a PDF for this publication.<br>" \
+                  "Recommended naming format: '[mini citation]'.",
         related_name='%(app_label)s_%(class)s_pdf',
     )
     supplemental_pdf = FilerFileField(
         blank=True,
         null=True,
-        help_text='Upload/select a supplemental PDF for this publication.',
+        help_text="Upload/select a supplemental PDF for this publication.<br>" \
+                  "Recommended naming format: '[mini citation] - Supplement'.",
         related_name='%(app_label)s_%(class)s_supplemental_pdf',
     )
 
     image = FilerImageField(
         blank=True,
         null=True,
-        help_text='Upload/select a representative image or figure ' \
-                  'for this publication.',
+        help_text="Upload/select a representative image or figure " \
+                  "for this publication.<br>" \
+                  "Recommended naming format: '[mini citation] - Figure X'.",
         related_name='%(app_label)s_%(class)s_image',
     )
 
@@ -88,6 +91,10 @@ class Publication(models.Model):
     )
     mini_citation = models.CharField('mini citation',
         blank=True,
+        help_text='<strong>This field is auto-generated when a PubMed query ' \
+                  'is made.</strong><br>' \
+                  'It is recommended to use this text when adding custom ' \
+                  'names for uploaded files. See examples below.',
         max_length=255,
     )
     abstract = models.TextField('abstract',

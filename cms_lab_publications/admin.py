@@ -35,6 +35,7 @@ class PublicationAdmin(admin.ModelAdmin):
             'pmid',
             'pubmed_url',
             'mini_citation',
+            'redo_query',
         ],
     })
 
@@ -48,7 +49,6 @@ class PublicationAdmin(admin.ModelAdmin):
 
     fieldset_pubmed_metadata = ('Auto-generated PubMed Metadata', {
         'fields': [
-            'redo_query',
             'citation',
             'url',
             'title',

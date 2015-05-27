@@ -48,6 +48,25 @@ class MissingAttachmentListFilter(admin.SimpleListFilter):
             return queryset.filter(image=None)
 
 
+class CurrentTagsListFilter(admin.SimpleListFilter):
+    """
+    Filter records by django-taggit tags for the current model only.
+    Tags are sorted alphabetically.
+    """
+    title = 'Tags'
+    parameter_name = 'tag'
+
+    def lookups(self, request, model_admin):
+        model_tags = [tag.name for tag in
+            TaggedItem.tags_for(model_admin.model)]
+        model_tags.sort()
+        return tuple([(tag, tag) for tag in model_tags])
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            return queryset.filter(tags__name=self.value())
+
+
 class PublicationAdmin(admin.ModelAdmin):
 
     fieldset_pubmed_query = ('PubMed Query', {
@@ -110,7 +129,7 @@ class PublicationAdmin(admin.ModelAdmin):
     )
     list_filter = (
         MissingAttachmentListFilter,
-        'tags',
+        CurrentTagsListFilter,
         'journal',
         'year',
     )
@@ -155,7 +174,7 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'searchable',
     )
     list_filter = (
-        'tags',
+        CurrentTagsListFilter,
     )
 
     search_fields = (

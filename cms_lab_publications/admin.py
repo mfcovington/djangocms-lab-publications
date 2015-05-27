@@ -68,8 +68,8 @@ class PublicationAdmin(admin.ModelAdmin):
 
     fieldsets = [
         fieldset_pubmed_query,
-        fieldset_files,
         fieldset_pubmed_metadata,
+        fieldset_files,
     ]
 
     inlines = [

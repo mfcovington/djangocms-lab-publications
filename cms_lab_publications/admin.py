@@ -11,7 +11,7 @@ class PublicationInline(admin.TabularInline):
     extra = 3
     verbose_name = "Associated Publication"
     verbose_name_plural = "Associated Publications"
-    ordering = ('-publication__year',)
+    ordering = ('-publication__year', 'publication__first_author',)
 
 
 class PublicationSetInline(admin.TabularInline):

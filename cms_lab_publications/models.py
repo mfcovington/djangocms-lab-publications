@@ -22,7 +22,7 @@ class Publication(models.Model):
     )
     redo_query = models.BooleanField('redo PubMed query?',
         default=False,
-        help_text='Check this box to redo the PubMed query. Any manual ' \
+        help_text='Check this box to redo the PubMed query.<br>Any manual ' \
                   'changes to the PubMed metadata will be overwritten.',
     )
 
@@ -160,14 +160,14 @@ class Publication(models.Model):
 class PublicationSet(models.Model):
 
     name = models.CharField('name',
-        help_text="Enter a unique name for this Publication Set. " \
+        help_text="Enter a unique name for this Publication Set.<br>" \
                   "This won't be displayed on the site.",
         max_length=255,
         unique=True,
     )
     label = models.CharField('label',
         default='Publications',
-        help_text='Enter a label for this Publication Set. ' \
+        help_text='Enter a label for this Publication Set.<br>' \
                   'This will be the heading displayed above the publications.',
         max_length=255,
     )
@@ -179,7 +179,7 @@ class PublicationSet(models.Model):
     pagination = models.PositiveIntegerField('pagination',
         default=0,
         help_text="How many publications should be displayed per page? " \
-                  "To show all at once, enter '0'. " \
+                  "To show all at once, enter '0'.<br>" \
                   "Server may need to be restarted for changes to take effect.",
     )
 

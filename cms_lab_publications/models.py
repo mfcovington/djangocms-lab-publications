@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -183,6 +185,14 @@ class PublicationSet(models.Model):
                   "Server may need to be restarted for changes to take effect.",
     )
 
+    bulk_pubmed_query = models.TextField('Bulk Query',
+        blank=True,
+        help_text='Enter PubMed IDs and/or PubMed URLs to get or create ' \
+                  'multiple Publications and add them to this Publication Set.<br>' \
+                  'PubMed IDs/URLs must be separated by commas or whitespace.<br>' \
+                  'To add files and tags to publication records, create publications ' \
+                  'individually via the Publication Admin (or below).',
+    )
     publications = models.ManyToManyField(Publication)
 
     searchable = models.BooleanField('searchable?',
@@ -191,6 +201,30 @@ class PublicationSet(models.Model):
     )
 
     tags = TaggableManager()
+
+    def save(self, *args, **kwargs):
+        """
+        Before saving, if 'bulk_pubmed_query' contains any content, perform
+        a bulk PubMed query and add the publications to the publication set.
+        """
+        if self.bulk_pubmed_query:
+            failed_queries = []
+            pmid_list = re.findall(r'(\d+)(?:[\s,]+|$)', self.bulk_pubmed_query)
+
+            for pmid in pmid_list:
+                try:
+                    p, created = Publication.objects.get_or_create(pmid=pmid)
+                except:
+                    failed_queries.append(pmid)
+                else:
+                    self.publications.add(p.id)
+
+            if failed_queries:
+                self.bulk_pubmed_query = 'FAILED QUERIES: {}'.format(', '.join(failed_queries))
+            else:
+                self.bulk_pubmed_query = ''
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

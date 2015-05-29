@@ -180,8 +180,15 @@ class PublicationSetAdmin(admin.ModelAdmin):
         ],
     })
 
+    fieldset_bulk = ('Add Publications in Bulk', {
+        'fields': [
+            'bulk_pubmed_query',
+        ],
+    })
+
     fieldsets = [
         fieldset_publication_set,
+        fieldset_bulk,
     ]
 
     inlines = [

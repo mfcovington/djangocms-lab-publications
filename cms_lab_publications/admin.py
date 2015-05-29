@@ -77,6 +77,7 @@ class CurrentTagsListFilter(admin.SimpleListFilter):
             return queryset.filter(tags__name=self.value())
 
 
+@admin.register(Publication)
 class PublicationAdmin(admin.ModelAdmin):
 
     fieldset_pubmed_query = ('PubMed Query', {
@@ -165,9 +166,8 @@ class PublicationAdmin(admin.ModelAdmin):
         return obj.image is not None
     has_image.boolean = True
 
-admin.site.register(Publication, PublicationAdmin)
 
-
+@admin.register(PublicationSet)
 class PublicationSetAdmin(admin.ModelAdmin):
 
     fieldset_publication_set = ('Publication Set', {
@@ -217,5 +217,3 @@ class PublicationSetAdmin(admin.ModelAdmin):
     def number_of_publications(self, obj):
         return obj.pub_count
     number_of_publications.admin_order_field = 'pub_count'
-
-admin.site.register(PublicationSet, PublicationSetAdmin)

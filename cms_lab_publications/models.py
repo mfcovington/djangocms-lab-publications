@@ -1,6 +1,8 @@
 import re
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 
 from cms.models import CMSPlugin
@@ -202,20 +204,10 @@ class PublicationSet(models.Model):
 
     tags = TaggableManager()
 
-    def clean(self):
+    def perform_bulk_pubmed_query(self):
         """
-        Require creation of Publication Set before performing a Bulk PubMed Query.
-        """
-        if self.bulk_pubmed_query and self.pk is None:
-            raise ValidationError(
-                'Can only perform a Bulk PubMed Query with an existing Publication Set. ' \
-                'First create this Publication Set and then do the Bulk PubMed Query.'
-            )
-
-    def save(self, *args, **kwargs):
-        """
-        Before saving, if 'bulk_pubmed_query' contains any content, perform
-        a bulk PubMed query and add the publications to the publication set.
+        If 'bulk_pubmed_query' contains any content, perform a bulk PubMed query,
+        add the publications to the publication set, and save.
         """
         if self.bulk_pubmed_query:
             failed_queries = []
@@ -234,7 +226,7 @@ class PublicationSet(models.Model):
             else:
                 self.bulk_pubmed_query = ''
 
-        super().save(*args, **kwargs)
+            self.save()
 
     def __str__(self):
         return self.name
@@ -248,3 +240,12 @@ class PublicationSetPlugin(CMSPlugin):
 
     def __str__(self):
         return self.publication_set.name
+
+
+@receiver(post_save, sender=PublicationSet)
+def post_save_bulk_pubmed_query(sender, **kwargs):
+    """
+    After saving, execute 'perform_bulk_pubmed_query()'.
+    """
+    publication_set = kwargs['instance']
+    publication_set.perform_bulk_pubmed_query()

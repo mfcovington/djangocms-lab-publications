@@ -202,6 +202,16 @@ class PublicationSet(models.Model):
 
     tags = TaggableManager()
 
+    def clean(self):
+        """
+        Require creation of Publication Set before performing a Bulk PubMed Query.
+        """
+        if self.bulk_pubmed_query and self.pk is None:
+            raise ValidationError(
+                'Can only perform a Bulk PubMed Query with an existing Publication Set. ' \
+                'First create this Publication Set and then do the Bulk PubMed Query.'
+            )
+
     def save(self, *args, **kwargs):
         """
         Before saving, if 'bulk_pubmed_query' contains any content, perform

@@ -6,14 +6,6 @@ from .models import Publication, PublicationSet
 from taggit.models import TaggedItem
 
 
-class PublicationInline(admin.TabularInline):
-    model = PublicationSet.publications.through
-    extra = 3
-    verbose_name = "Associated Publication"
-    verbose_name_plural = "Associated Publications"
-    ordering = ('-publication__year', 'publication__first_author',)
-
-
 class PublicationSetInline(admin.TabularInline):
     model = PublicationSet.publications.through
     extra = 1
@@ -186,13 +178,21 @@ class PublicationSetAdmin(admin.ModelAdmin):
         ],
     })
 
+    fieldset_publications = ('Publications', {
+        'fields': [
+            'publications',
+        ],
+    })
+
     fieldsets = [
         fieldset_publication_set,
         fieldset_bulk,
+        fieldset_publications,
     ]
 
+    filter_vertical = ['publications']
+
     inlines = [
-        PublicationInline,
         TaggedItemInline,
     ]
 

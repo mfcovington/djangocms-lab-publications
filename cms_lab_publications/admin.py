@@ -162,6 +162,18 @@ class PublicationAdmin(admin.ModelAdmin):
 @admin.register(PublicationSet)
 class PublicationSetAdmin(admin.ModelAdmin):
 
+    def save_model(self, request, obj, form, change):
+        """
+        Allow Bulk PubMed Query to update publications field on admin form.
+        """
+        if obj.bulk_pubmed_query:
+            obj.publications = ''
+            obj.perform_bulk_pubmed_query()
+            form.cleaned_data['publications'] = form.cleaned_data['publications'] \
+                                              | obj.publications.all()
+
+        super().save_model(request, obj, form, change)
+
     class Media:
         css = {
             'all': ('cms_lab_publications/css/admin-publication-filter.css',)

@@ -226,8 +226,6 @@ class PublicationSet(models.Model):
             else:
                 self.bulk_pubmed_query = ''
 
-            self.save()
-
     def __str__(self):
         return self.name
 

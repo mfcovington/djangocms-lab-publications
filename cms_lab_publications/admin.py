@@ -132,6 +132,7 @@ class PublicationAdmin(admin.ModelAdmin):
         'has_pdf',
         'has_supplemental',
         'has_image',
+        'number_of_publication_sets',
     )
     list_filter = (
         MissingAttachmentListFilter,
@@ -159,6 +160,16 @@ class PublicationAdmin(admin.ModelAdmin):
     def has_image(self, obj):
         return obj.image is not None
     has_image.boolean = True
+
+    def queryset(self, request):
+        queryset = super().queryset(request)
+        queryset = queryset.annotate(pub_set_count=Count('publicationset'))
+        return queryset
+
+    def number_of_publication_sets(self, obj):
+        return obj.pub_set_count
+    number_of_publication_sets.admin_order_field = 'pub_set_count'
+    number_of_publication_sets.short_description = '# of Pub Sets'
 
 
 @admin.register(PublicationSet)

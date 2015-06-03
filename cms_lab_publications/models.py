@@ -1,8 +1,6 @@
 import re
 
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 
 from cms.models import CMSPlugin
@@ -229,6 +227,13 @@ class PublicationSet(models.Model):
             else:
                 self.bulk_pubmed_query = ''
 
+    def save(self, *args, **kwargs):
+        """
+        Before saving, execute 'perform_bulk_pubmed_query()'.
+        """
+        self.perform_bulk_pubmed_query()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -241,12 +246,3 @@ class PublicationSetPlugin(CMSPlugin):
 
     def __str__(self):
         return self.publication_set.name
-
-
-@receiver(post_save, sender=PublicationSet)
-def post_save_bulk_pubmed_query(sender, **kwargs):
-    """
-    After saving, execute 'perform_bulk_pubmed_query()'.
-    """
-    publication_set = kwargs['instance']
-    publication_set.perform_bulk_pubmed_query()

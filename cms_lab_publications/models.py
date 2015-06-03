@@ -144,7 +144,7 @@ class Publication(models.Model):
             self.mini_citation = publication.cite_mini()
             self.abstract = publication.abstract
 
-        super(Publication, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return "{} - {} - {} - {} [{}]".format(self.year,

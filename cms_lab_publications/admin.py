@@ -22,6 +22,9 @@ class TaggedItemInline(GenericTabularInline):
 
 
 class MissingAttachmentListFilter(admin.SimpleListFilter):
+    """
+    Filter Publication records by the presence of attached files.
+    """
     title = 'Missing Attachments'
     parameter_name = 'attachment'
 

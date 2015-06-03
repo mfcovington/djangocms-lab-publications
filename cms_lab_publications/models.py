@@ -149,13 +149,13 @@ class Publication(models.Model):
         super(Publication, self).save(*args, **kwargs)
 
     def __str__(self):
-        if len(self.title) >= 45:
-            title = "{}...".format(self.title[:40])
-        else:
-            title = self.title
+        # if len(self.title) >= 45:
+        #     title = "{}...".format(self.title[:40])
+        # else:
+        #     title = self.title
 
         return "{} - {} - {} - {} [{}]".format(self.year,
-            self.first_author, self.journal, title, str(self.pmid),)
+            self.first_author, self.journal, self.title, str(self.pmid),)
 
     class Meta:
         ordering = ('-year', '-month', '-day', 'first_author')

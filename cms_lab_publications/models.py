@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -22,7 +24,7 @@ class Publication(models.Model):
     )
     redo_query = models.BooleanField('redo PubMed query?',
         default=False,
-        help_text='Check this box to redo the PubMed query. Any manual ' \
+        help_text='Check this box to redo the PubMed query.<br>Any manual ' \
                   'changes to the PubMed metadata will be overwritten.',
     )
 
@@ -142,16 +144,11 @@ class Publication(models.Model):
             self.mini_citation = publication.cite_mini()
             self.abstract = publication.abstract
 
-        super(Publication, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        if len(self.title) >= 45:
-            title = "{}...".format(self.title[:40])
-        else:
-            title = self.title
-
         return "{} - {} - {} - {} [{}]".format(self.year,
-            self.first_author, self.journal, title, str(self.pmid),)
+            self.first_author, self.journal, self.title, str(self.pmid),)
 
     class Meta:
         ordering = ('-year', '-month', '-day', 'first_author')
@@ -160,14 +157,15 @@ class Publication(models.Model):
 class PublicationSet(models.Model):
 
     name = models.CharField('name',
-        help_text="Enter a unique name for this Publication Set. " \
+        help_text="Enter a unique name for this Publication Set.<br>" \
                   "This won't be displayed on the site.",
         max_length=255,
         unique=True,
     )
     label = models.CharField('label',
-        help_text='Enter a label for this Publication Set. ' \
-                  'This may be displayed on the site.',
+        default='Publications',
+        help_text='Enter a label for this Publication Set.<br>' \
+                  'This will be the heading displayed above the publications.',
         max_length=255,
     )
     description = models.TextField('description',
@@ -176,13 +174,24 @@ class PublicationSet(models.Model):
     )
 
     pagination = models.PositiveIntegerField('pagination',
-        default=5,
+        default=0,
         help_text="How many publications should be displayed per page? " \
-                  "To show all at once, enter '0'. " \
+                  "To show all at once, enter '0'.<br>" \
                   "Server may need to be restarted for changes to take effect.",
     )
 
-    publications = models.ManyToManyField(Publication)
+    bulk_pubmed_query = models.TextField('Bulk Query',
+        blank=True,
+        help_text='Enter PubMed IDs and/or PubMed URLs to get or create ' \
+                  'multiple Publications and add them to this Publication Set.<br>' \
+                  'PubMed IDs/URLs must be separated by commas or whitespace.<br>' \
+                  'To add files and tags to publication records, create publications ' \
+                  'individually via the Publication Admin (or below).',
+    )
+    publications = models.ManyToManyField(Publication,
+        blank=True,
+        null=True,
+    )
 
     searchable = models.BooleanField('searchable?',
         default=True,
@@ -190,6 +199,46 @@ class PublicationSet(models.Model):
     )
 
     tags = TaggableManager()
+
+    def perform_bulk_pubmed_query(self):
+        """
+        If 'bulk_pubmed_query' contains any content, perform a bulk PubMed query,
+        add the publications to the publication set, and save.
+        """
+        if self.bulk_pubmed_query:
+            failed_queries = []
+            pmid_list = re.findall(r'(\d+)(?:[\s,]+|$)', self.bulk_pubmed_query)
+
+            for pmid in pmid_list:
+                try:
+                    p, created = Publication.objects.get_or_create(pmid=pmid)
+                except:
+                    failed_queries.append(pmid)
+                else:
+                    self.publications.add(p.id)
+
+            if failed_queries:
+                failed_queries.sort(key=int)
+                self.bulk_pubmed_query = 'FAILED QUERIES: {}'.format(', '.join(failed_queries))
+            else:
+                self.bulk_pubmed_query = ''
+
+    def clean(self):
+        """
+        Require creation of Publication Set before performing a Bulk PubMed Query.
+        """
+        if self.bulk_pubmed_query and self.pk is None:
+            raise ValidationError(
+                'Can only perform a Bulk PubMed Query with an existing Publication Set. ' \
+                'First create this Publication Set and then do the Bulk PubMed Query.'
+            )
+
+    def save(self, *args, **kwargs):
+        """
+        Before saving, execute 'perform_bulk_pubmed_query()'.
+        """
+        self.perform_bulk_pubmed_query()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

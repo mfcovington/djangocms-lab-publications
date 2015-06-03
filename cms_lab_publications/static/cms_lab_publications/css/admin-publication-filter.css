@@ -1,0 +1,11 @@
+form select[multiple] {
+  max-width: 100%;
+}
+
+.stacked {
+  width: 80%;
+}
+
+.stacked .selector-available, .stacked .selector-chosen {
+  width: 98%;
+}

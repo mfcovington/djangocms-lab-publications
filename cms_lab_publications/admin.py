@@ -6,14 +6,6 @@ from .models import Publication, PublicationSet
 from taggit.models import TaggedItem
 
 
-class PublicationInline(admin.TabularInline):
-    model = PublicationSet.publications.through
-    extra = 3
-    verbose_name = "Associated Publication"
-    verbose_name_plural = "Associated Publications"
-    ordering = ('-publication__year',)
-
-
 class PublicationSetInline(admin.TabularInline):
     model = PublicationSet.publications.through
     extra = 1
@@ -30,6 +22,9 @@ class TaggedItemInline(GenericTabularInline):
 
 
 class MissingAttachmentListFilter(admin.SimpleListFilter):
+    """
+    Filter Publication records by the presence of attached files.
+    """
     title = 'Missing Attachments'
     parameter_name = 'attachment'
 
@@ -77,6 +72,27 @@ class CurrentTagsListFilter(admin.SimpleListFilter):
             return queryset.filter(tags__name=self.value())
 
 
+class BulkPubMedQueryStatusFilter(admin.SimpleListFilter):
+    """
+    Filter Publication Set records by whether its Bulk PubMed Query failed.
+    """
+    title = 'Bulk PubMed Query Status'
+    parameter_name = 'query_status'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('ok', 'OK'),
+            ('failed', 'Failed'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'ok':
+            return queryset.filter(bulk_pubmed_query='')
+        elif self.value() == 'failed':
+            return queryset.exclude(bulk_pubmed_query='')
+
+
+@admin.register(Publication)
 class PublicationAdmin(admin.ModelAdmin):
 
     fieldset_pubmed_query = ('PubMed Query', {
@@ -122,8 +138,8 @@ class PublicationAdmin(admin.ModelAdmin):
     ]
 
     inlines = [
-        PublicationSetInline,
         TaggedItemInline,
+        PublicationSetInline,
     ]
 
     readonly_fields = ('mini_citation',)
@@ -139,6 +155,7 @@ class PublicationAdmin(admin.ModelAdmin):
         'has_pdf',
         'has_supplemental',
         'has_image',
+        'number_of_publication_sets',
     )
     list_filter = (
         MissingAttachmentListFilter,
@@ -149,26 +166,57 @@ class PublicationAdmin(admin.ModelAdmin):
     search_fields = (
         'abstract',
         'authors',
+        'pmid',
         'journal',
         'title',
+        'year',
     )
 
     def has_pdf(self, obj):
         return obj.pdf is not None
     has_pdf.boolean = True
+    has_pdf.short_description = 'PDF?'
 
     def has_supplemental(self, obj):
         return obj.supplemental_pdf is not None
     has_supplemental.boolean = True
+    has_supplemental.short_description = 'Supplement?'
 
     def has_image(self, obj):
         return obj.image is not None
     has_image.boolean = True
+    has_image.short_description = 'Image?'
 
-admin.site.register(Publication, PublicationAdmin)
+    def queryset(self, request):
+        queryset = super().queryset(request)
+        queryset = queryset.annotate(pub_set_count=Count('publicationset'))
+        return queryset
+
+    def number_of_publication_sets(self, obj):
+        return obj.pub_set_count
+    number_of_publication_sets.admin_order_field = 'pub_set_count'
+    number_of_publication_sets.short_description = '# of Pub Sets'
 
 
+@admin.register(PublicationSet)
 class PublicationSetAdmin(admin.ModelAdmin):
+
+    def save_model(self, request, obj, form, change):
+        """
+        Allow Bulk PubMed Query to update publications field on admin form.
+        """
+        if obj.bulk_pubmed_query:
+            obj.publications = ''
+            obj.perform_bulk_pubmed_query()
+            form.cleaned_data['publications'] = form.cleaned_data['publications'] \
+                                              | obj.publications.all()
+
+        super().save_model(request, obj, form, change)
+
+    class Media:
+        css = {
+            'all': ('cms_lab_publications/css/admin-publication-filter.css',)
+        }
 
     fieldset_publication_set = ('Publication Set', {
         'fields': [
@@ -180,12 +228,27 @@ class PublicationSetAdmin(admin.ModelAdmin):
         ],
     })
 
+    fieldset_bulk = ('Add Publications in Bulk', {
+        'fields': [
+            'bulk_pubmed_query',
+        ],
+    })
+
+    fieldset_publications = ('Publications', {
+        'fields': [
+            'publications',
+        ],
+    })
+
     fieldsets = [
         fieldset_publication_set,
+        fieldset_bulk,
+        fieldset_publications,
     ]
 
+    filter_vertical = ['publications']
+
     inlines = [
-        PublicationInline,
         TaggedItemInline,
     ]
 
@@ -195,11 +258,13 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'name',
         'label',
         'description',
-        'pagination',
         'number_of_publications',
+        'pagination',
         'searchable',
+        'is_bulk_pubmed_query_ok',
     )
     list_filter = (
+        BulkPubMedQueryStatusFilter,
         CurrentTagsListFilter,
     )
 
@@ -209,6 +274,11 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'description',
     )
 
+    def is_bulk_pubmed_query_ok(self, obj):
+        return obj.bulk_pubmed_query == ''
+    is_bulk_pubmed_query_ok.boolean = True
+    is_bulk_pubmed_query_ok.short_description = 'Query OK?'
+
     def queryset(self, request):
         queryset = super().queryset(request)
         queryset = queryset.annotate(pub_count=Count('publications'))
@@ -217,5 +287,4 @@ class PublicationSetAdmin(admin.ModelAdmin):
     def number_of_publications(self, obj):
         return obj.pub_count
     number_of_publications.admin_order_field = 'pub_count'
-
-admin.site.register(PublicationSet, PublicationSetAdmin)
+    number_of_publications.short_description = '# of Publications'

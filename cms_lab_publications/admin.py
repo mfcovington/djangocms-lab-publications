@@ -152,14 +152,17 @@ class PublicationAdmin(admin.ModelAdmin):
     def has_pdf(self, obj):
         return obj.pdf is not None
     has_pdf.boolean = True
+    has_pdf.short_description = 'PDF?'
 
     def has_supplemental(self, obj):
         return obj.supplemental_pdf is not None
     has_supplemental.boolean = True
+    has_supplemental.short_description = 'Supplement?'
 
     def has_image(self, obj):
         return obj.image is not None
     has_image.boolean = True
+    has_image.short_description = 'Image?'
 
     def queryset(self, request):
         queryset = super().queryset(request)
@@ -254,3 +257,4 @@ class PublicationSetAdmin(admin.ModelAdmin):
     def number_of_publications(self, obj):
         return obj.pub_count
     number_of_publications.admin_order_field = 'pub_count'
+    number_of_publications.short_description = '# of Publications'

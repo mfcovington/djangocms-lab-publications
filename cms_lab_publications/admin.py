@@ -81,11 +81,14 @@ class BulkPubMedQueryStatusFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return (
-            ('failed', 'Query failed'),
+            ('ok', 'OK'),
+            ('failed', 'Failed'),
         )
 
     def queryset(self, request, queryset):
-        if self.value() == 'failed':
+        if self.value() == 'ok':
+            return queryset.filter(bulk_pubmed_query='')
+        elif self.value() == 'failed':
             return queryset.exclude(bulk_pubmed_query='')
 
 

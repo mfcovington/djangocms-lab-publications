@@ -9,7 +9,7 @@ CMS Lab Publications is a Django app for adding sets of scientific publications 
 - Install `djangocms-lab-publications` from GitHub:
 
     ```sh
-    pip install https://github.com/mfcovington/djangocms-lab-publications/releases/download/0.1.2/djangocms-lab-publications-0.1.3.tar.gz
+    pip install https://github.com/mfcovington/djangocms-lab-publications/releases/download/0.1.3/djangocms-lab-publications-0.1.3.tar.gz
     ```
 
 - Edit the project's `settings.py` file.

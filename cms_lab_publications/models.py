@@ -195,7 +195,10 @@ class PublicationSet(models.Model):
                   'To add files and tags to publication records, create publications ' \
                   'individually via the Publication Admin (or below).',
     )
-    publications = models.ManyToManyField(Publication)
+    publications = models.ManyToManyField(Publication,
+        blank=True,
+        null=True,
+    )
 
     searchable = models.BooleanField('searchable?',
         default=True,

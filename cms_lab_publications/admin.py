@@ -145,6 +145,7 @@ class PublicationAdmin(admin.ModelAdmin):
         'pmid',
         'journal',
         'title',
+        'year',
     )
 
     def has_pdf(self, obj):

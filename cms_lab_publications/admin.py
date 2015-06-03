@@ -162,6 +162,11 @@ class PublicationAdmin(admin.ModelAdmin):
 @admin.register(PublicationSet)
 class PublicationSetAdmin(admin.ModelAdmin):
 
+    class Media:
+        css = {
+            'all': ('cms_lab_publications/css/admin-publication-filter.css',)
+        }
+
     fieldset_publication_set = ('Publication Set', {
         'fields': [
             'name',

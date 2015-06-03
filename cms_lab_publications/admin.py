@@ -235,8 +235,8 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'name',
         'label',
         'description',
-        'pagination',
         'number_of_publications',
+        'pagination',
         'searchable',
     )
     list_filter = (

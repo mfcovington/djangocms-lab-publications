@@ -223,6 +223,7 @@ class PublicationSet(models.Model):
                     self.publications.add(p.id)
 
             if failed_queries:
+                failed_queries.sort(key=int)
                 self.bulk_pubmed_query = 'FAILED QUERIES: {}'.format(', '.join(failed_queries))
             else:
                 self.bulk_pubmed_query = ''

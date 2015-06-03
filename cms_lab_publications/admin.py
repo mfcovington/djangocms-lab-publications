@@ -115,8 +115,8 @@ class PublicationAdmin(admin.ModelAdmin):
     ]
 
     inlines = [
-        PublicationSetInline,
         TaggedItemInline,
+        PublicationSetInline,
     ]
 
     readonly_fields = ('mini_citation',)

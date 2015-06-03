@@ -142,6 +142,7 @@ class PublicationAdmin(admin.ModelAdmin):
     search_fields = (
         'abstract',
         'authors',
+        'pmid',
         'journal',
         'title',
     )

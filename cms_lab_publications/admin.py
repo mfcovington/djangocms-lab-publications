@@ -261,6 +261,7 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'number_of_publications',
         'pagination',
         'searchable',
+        'is_bulk_pubmed_query_ok',
     )
     list_filter = (
         BulkPubMedQueryStatusFilter,
@@ -272,6 +273,11 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'label',
         'description',
     )
+
+    def is_bulk_pubmed_query_ok(self, obj):
+        return obj.bulk_pubmed_query == ''
+    is_bulk_pubmed_query_ok.boolean = True
+    is_bulk_pubmed_query_ok.short_description = 'Query OK?'
 
     def queryset(self, request):
         queryset = super().queryset(request)

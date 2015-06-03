@@ -69,6 +69,23 @@ class CurrentTagsListFilter(admin.SimpleListFilter):
             return queryset.filter(tags__name=self.value())
 
 
+class BulkPubMedQueryStatusFilter(admin.SimpleListFilter):
+    """
+    Filter Publication Set records by whether its Bulk PubMed Query failed.
+    """
+    title = 'Bulk PubMed Query Status'
+    parameter_name = 'query_status'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('failed', 'Query failed'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'failed':
+            return queryset.exclude(bulk_pubmed_query='')
+
+
 @admin.register(Publication)
 class PublicationAdmin(admin.ModelAdmin):
 
@@ -240,6 +257,7 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'searchable',
     )
     list_filter = (
+        BulkPubMedQueryStatusFilter,
         CurrentTagsListFilter,
     )
 

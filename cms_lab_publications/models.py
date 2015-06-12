@@ -173,7 +173,7 @@ class PublicationSet(models.Model):
         help_text='Enter a description of this Publication Set.',
     )
 
-    pagination = models.PositiveIntegerField('pagination',
+    pagination = models.PositiveIntegerField('pubs per page',
         default=0,
         help_text="How many publications should be displayed per page? " \
                   "To show all at once, enter '0'.<br>" \

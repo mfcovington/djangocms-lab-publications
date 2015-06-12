@@ -132,7 +132,7 @@ class PublicationAdmin(TaggitCounter, admin.ModelAdmin):
         'has_supplemental',
         'has_image',
         'number_of_publication_sets',
-        'taggit_count',
+        'taggit_counter',
     )
     list_filter = (
         MissingAttachmentListFilter,
@@ -239,7 +239,7 @@ class PublicationSetAdmin(TaggitCounter, admin.ModelAdmin):
         'pagination',
         'searchable',
         'is_bulk_pubmed_query_ok',
-        'taggit_count',
+        'taggit_counter',
     )
     list_filter = (
         BulkPubMedQueryStatusFilter,

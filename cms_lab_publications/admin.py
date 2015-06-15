@@ -164,8 +164,8 @@ class PublicationAdmin(TaggitCounter, admin.ModelAdmin):
     has_image.boolean = True
     has_image.short_description = 'Image?'
 
-    def queryset(self, request):
-        queryset = super().queryset(request)
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
         queryset = queryset.annotate(pub_set_count=Count('publicationset'))
         return queryset
 
@@ -257,8 +257,8 @@ class PublicationSetAdmin(TaggitCounter, admin.ModelAdmin):
     is_bulk_pubmed_query_ok.boolean = True
     is_bulk_pubmed_query_ok.short_description = 'Query OK?'
 
-    def queryset(self, request):
-        queryset = super().queryset(request)
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
         queryset = queryset.annotate(pub_count=Count('publications'))
         return queryset
 

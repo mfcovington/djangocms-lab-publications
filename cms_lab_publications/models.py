@@ -192,9 +192,8 @@ class PublicationSet(models.Model):
 
     pagination = models.PositiveIntegerField('pubs per page',
         default=0,
-        help_text="How many publications should be displayed per page? " \
-                  "To show all at once, enter '0'.<br>" \
-                  "Server may need to be restarted for changes to take effect.",
+        help_text="How many publications should be displayed per page?<br>" \
+                  "To show all at once, enter '0'.",
     )
 
     bulk_pubmed_query = models.TextField('Bulk Query',

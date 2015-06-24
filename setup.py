@@ -1,8 +1,16 @@
 import os
+import sys
 from setuptools import setup
 
-with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
-    README = readme.read()
+if sys.version_info < (3, 2):
+    print("Sorry, djangocms-lab-publications currently requires Python 3.2+.")
+    sys.exit(1)
+
+# From: https://hynek.me/articles/sharing-your-labor-of-love-pypi-quick-and-dirty/
+def read(*paths):
+    """Build a file path from *paths* and return the contents."""
+    with open(os.path.join(*paths), 'r') as f:
+        return f.read()
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -12,17 +20,20 @@ install_requires = [
     "django-cms>=3.0",
     "django-filer>=0.9.9",
     "django-taggit>=0.14.0",
+    "django-taggit-helpers>=0.1.1",
     "pubmed-lookup>=0.1.1",
 ]
 
 setup(
     name='djangocms-lab-publications',
-    version='0.1.3',
+    version='0.1.4',
     packages=['cms_lab_publications'],
     include_package_data=True,
     license='BSD License',
+    keywords='citations lab literature pmid publications pubmed science',
     description='A Django app for adding sets of scientific publications with PubMed metadata to a Django site with django CMS-specific features',
-    long_description=README,
+    long_description=(read('README.rst') + '\n\n' +
+                      read('CHANGELOG.rst')),
     url='https://github.com/mfcovington/djangocms-lab-publications',
     author='Michael F. Covington',
     author_email='mfcovington@gmail.com',

@@ -4,6 +4,8 @@ from django.db.models import Count
 
 from .models import Publication, PublicationSet
 from taggit.models import TaggedItem
+from taggit_helpers import (TaggitCounter, TaggitListFilter,
+	TaggitTabularInline)
 
 
 class PublicationSetInline(admin.TabularInline):
@@ -12,13 +14,6 @@ class PublicationSetInline(admin.TabularInline):
     verbose_name = "Associated Publication Set"
     verbose_name_plural = "Associated Publication Sets"
     ordering = ('publicationset__name',)
-
-
-class TaggedItemInline(GenericTabularInline):
-    model = TaggedItem
-    verbose_name = "Tag"
-    verbose_name_plural = "Tags"
-    ordering = ('tag__name',)
 
 
 class MissingAttachmentListFilter(admin.SimpleListFilter):
@@ -53,25 +48,6 @@ class MissingAttachmentListFilter(admin.SimpleListFilter):
             return queryset.exclude(image=None)
 
 
-class CurrentTagsListFilter(admin.SimpleListFilter):
-    """
-    Filter records by django-taggit tags for the current model only.
-    Tags are sorted alphabetically.
-    """
-    title = 'Tags'
-    parameter_name = 'tag'
-
-    def lookups(self, request, model_admin):
-        model_tags = [tag.name for tag in
-            TaggedItem.tags_for(model_admin.model)]
-        model_tags.sort()
-        return tuple([(tag, tag) for tag in model_tags])
-
-    def queryset(self, request, queryset):
-        if self.value() is not None:
-            return queryset.filter(tags__name=self.value())
-
-
 class BulkPubMedQueryStatusFilter(admin.SimpleListFilter):
     """
     Filter Publication Set records by whether its Bulk PubMed Query failed.
@@ -93,7 +69,7 @@ class BulkPubMedQueryStatusFilter(admin.SimpleListFilter):
 
 
 @admin.register(Publication)
-class PublicationAdmin(admin.ModelAdmin):
+class PublicationAdmin(TaggitCounter, admin.ModelAdmin):
 
     fieldset_pubmed_query = ('PubMed Query', {
         'fields': [
@@ -101,6 +77,7 @@ class PublicationAdmin(admin.ModelAdmin):
             'pubmed_url',
             'mini_citation',
             'redo_query',
+            'no_query',
         ],
     })
 
@@ -133,12 +110,12 @@ class PublicationAdmin(admin.ModelAdmin):
 
     fieldsets = [
         fieldset_pubmed_query,
-        fieldset_pubmed_metadata,
         fieldset_files,
+        fieldset_pubmed_metadata,
     ]
 
     inlines = [
-        TaggedItemInline,
+        TaggitTabularInline,
         PublicationSetInline,
     ]
 
@@ -156,10 +133,11 @@ class PublicationAdmin(admin.ModelAdmin):
         'has_supplemental',
         'has_image',
         'number_of_publication_sets',
+        'taggit_counter',
     )
     list_filter = (
         MissingAttachmentListFilter,
-        CurrentTagsListFilter,
+        TaggitListFilter,
         'journal',
         'year',
     )
@@ -187,8 +165,8 @@ class PublicationAdmin(admin.ModelAdmin):
     has_image.boolean = True
     has_image.short_description = 'Image?'
 
-    def queryset(self, request):
-        queryset = super().queryset(request)
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
         queryset = queryset.annotate(pub_set_count=Count('publicationset'))
         return queryset
 
@@ -199,7 +177,7 @@ class PublicationAdmin(admin.ModelAdmin):
 
 
 @admin.register(PublicationSet)
-class PublicationSetAdmin(admin.ModelAdmin):
+class PublicationSetAdmin(TaggitCounter, admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         """
@@ -249,7 +227,7 @@ class PublicationSetAdmin(admin.ModelAdmin):
     filter_vertical = ['publications']
 
     inlines = [
-        TaggedItemInline,
+        TaggitTabularInline,
     ]
 
     save_on_top = True
@@ -262,10 +240,11 @@ class PublicationSetAdmin(admin.ModelAdmin):
         'pagination',
         'searchable',
         'is_bulk_pubmed_query_ok',
+        'taggit_counter',
     )
     list_filter = (
         BulkPubMedQueryStatusFilter,
-        CurrentTagsListFilter,
+        TaggitListFilter,
     )
 
     search_fields = (
@@ -279,8 +258,8 @@ class PublicationSetAdmin(admin.ModelAdmin):
     is_bulk_pubmed_query_ok.boolean = True
     is_bulk_pubmed_query_ok.short_description = 'Query OK?'
 
-    def queryset(self, request):
-        queryset = super().queryset(request)
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
         queryset = queryset.annotate(pub_count=Count('publications'))
         return queryset
 

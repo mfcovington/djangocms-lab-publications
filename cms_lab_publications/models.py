@@ -20,12 +20,18 @@ class Publication(models.Model):
     pubmed_url = models.URLField('PubMed URL',
         blank=True,
         help_text="Enter publication's PubMed URL.",
-        unique=True,
     )
     redo_query = models.BooleanField('redo PubMed query?',
         default=False,
         help_text='Check this box to redo the PubMed query.<br>Any manual ' \
                   'changes to the PubMed metadata will be overwritten.',
+    )
+    no_query = models.BooleanField("Don't query PubMed",
+        default=False,
+        help_text="Check this box to prevent a PubMed query.<br>" \
+                  "Instead, enter publication info manually in the section below labeled " \
+                  "'Auto-generated PubMed Metadata'.<br>" \
+                  "This option is useful for when there is no PubMed record for the publication.",
     )
 
     pdf = FilerFileField(
@@ -52,7 +58,10 @@ class Publication(models.Model):
         related_name='%(app_label)s_%(class)s_image',
     )
 
-    tags = TaggableManager()
+    tags = TaggableManager(
+        help_text='Add keyword tags that represent this publication.',
+        blank=True,
+    )
 
     title = models.CharField('title',
         blank=True,
@@ -117,8 +126,21 @@ class Publication(models.Model):
         Before saving, get publication's PubMed metadata if publication
         is not already in database or if 'redo_query' is True.
         """
-        if self.redo_query or not self.pk:
-            self.redo_query = False
+        if self.no_query:
+            if not self.pk or self.pmid > 0:
+                try:
+                    pmid_min = Publication.objects.all().aggregate(
+                        models.Min('pmid'))['pmid__min'] - 1
+                except:
+                    self.pmid = 0
+                else:
+                    self.pmid = min(0, pmid_min)
+
+            self.pubmed_url = ''
+            self.mini_citation = '{} - {} - {}'.format(
+                self.first_author, self.year, self.journal)
+
+        elif self.redo_query or not self.pk:
             if self.pmid:
                 query = self.pmid
             else:
@@ -143,6 +165,8 @@ class Publication(models.Model):
             self.citation = publication.cite()
             self.mini_citation = publication.cite_mini()
             self.abstract = publication.abstract
+
+        self.redo_query = False
 
         super().save(*args, **kwargs)
 
@@ -173,11 +197,10 @@ class PublicationSet(models.Model):
         help_text='Enter a description of this Publication Set.',
     )
 
-    pagination = models.PositiveIntegerField('pagination',
+    pagination = models.PositiveIntegerField('pubs per page',
         default=0,
-        help_text="How many publications should be displayed per page? " \
-                  "To show all at once, enter '0'.<br>" \
-                  "Server may need to be restarted for changes to take effect.",
+        help_text="How many publications should be displayed per page?<br>" \
+                  "To show all at once, enter '0'.",
     )
 
     bulk_pubmed_query = models.TextField('Bulk Query',
@@ -198,7 +221,10 @@ class PublicationSet(models.Model):
         help_text='Enable publication search and keyword filter.',
     )
 
-    tags = TaggableManager()
+    tags = TaggableManager(
+        help_text='Add keyword tags that represent this publication set.',
+        blank=True,
+    )
 
     def perform_bulk_pubmed_query(self):
         """

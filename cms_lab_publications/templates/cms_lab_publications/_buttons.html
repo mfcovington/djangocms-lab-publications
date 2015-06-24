@@ -1,11 +1,13 @@
 {% if publication.abstract %}
-  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-pub-{{ publication.id }}"></span>Abstract</button>
+  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-pub-{{ publication.id }}">Abstract</button>
 {% endif %}
 
+{% if publication.pubmed_url %}
 <a href="{{ publication.pubmed_url }}" class="btn btn-default" target="_blank">PubMed</a>
+{% endif %}
 
 {% if publication.url %}
-  <a href="{{ publication.url }}" class="btn btn-default" target="_blank">{{ publication.journal }}</a>
+  <a href="{{ publication.url }}" class="btn btn-default" target="_blank">{{ publication.journal|default:'Journal' }}</a>
 {% endif %}
 
 {% if publication.pdf %}

@@ -60,6 +60,7 @@ class Publication(models.Model):
 
     tags = TaggableManager(
         help_text='Add keyword tags that represent this publication.',
+        blank=True,
     )
 
     title = models.CharField('title',
@@ -218,6 +219,7 @@ class PublicationSet(models.Model):
 
     tags = TaggableManager(
         help_text='Add keyword tags that represent this publication set.',
+        blank=True,
     )
 
     def perform_bulk_pubmed_query(self):

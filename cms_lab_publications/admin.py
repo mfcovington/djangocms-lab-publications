@@ -110,8 +110,8 @@ class PublicationAdmin(TaggitCounter, admin.ModelAdmin):
 
     fieldsets = [
         fieldset_pubmed_query,
-        fieldset_pubmed_metadata,
         fieldset_files,
+        fieldset_pubmed_metadata,
     ]
 
     inlines = [

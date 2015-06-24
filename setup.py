@@ -26,7 +26,7 @@ install_requires = [
 
 setup(
     name='djangocms-lab-publications',
-    version='0.1.3',
+    version='0.1.4',
     packages=['cms_lab_publications'],
     include_package_data=True,
     license='BSD License',

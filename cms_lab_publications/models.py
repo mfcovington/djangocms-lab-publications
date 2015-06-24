@@ -58,7 +58,9 @@ class Publication(models.Model):
         related_name='%(app_label)s_%(class)s_image',
     )
 
-    tags = TaggableManager()
+    tags = TaggableManager(
+        help_text='Add keyword tags that represent this publication.',
+    )
 
     title = models.CharField('title',
         blank=True,
@@ -214,7 +216,9 @@ class PublicationSet(models.Model):
         help_text='Enable publication search and keyword filter.',
     )
 
-    tags = TaggableManager()
+    tags = TaggableManager(
+        help_text='Add keyword tags that represent this publication set.',
+    )
 
     def perform_bulk_pubmed_query(self):
         """

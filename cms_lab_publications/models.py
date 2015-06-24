@@ -128,9 +128,13 @@ class Publication(models.Model):
         """
         if self.no_query:
             if not self.pk or self.pmid > 0:
-                pmid_min = Publication.objects.all().aggregate(
-                    models.Min('pmid'))['pmid__min'] - 1
-                self.pmid = min(0, pmid_min)
+                try:
+                    pmid_min = Publication.objects.all().aggregate(
+                        models.Min('pmid'))['pmid__min'] - 1
+                except:
+                    self.pmid = 0
+                else:
+                    self.pmid = min(0, pmid_min)
 
             self.pubmed_url = ''
             self.mini_citation = '{} - {} - {}'.format(

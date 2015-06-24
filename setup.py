@@ -26,10 +26,11 @@ install_requires = [
 
 setup(
     name='djangocms-lab-publications',
-    version='0.1.3',
+    version='0.1.4',
     packages=['cms_lab_publications'],
     include_package_data=True,
     license='BSD License',
+    keywords='citations lab literature pmid publications pubmed science',
     description='A Django app for adding sets of scientific publications with PubMed metadata to a Django site with django CMS-specific features',
     long_description=(read('README.rst') + '\n\n' +
                       read('CHANGELOG.rst')),

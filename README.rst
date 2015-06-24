@@ -22,7 +22,7 @@ Installation
 
 .. code-block:: sh
 
-    pip install https://github.com/mfcovington/djangocms-lab-publications/releases/download/0.1.3/djangocms-lab-publications-0.1.3.tar.gz
+    pip install https://github.com/mfcovington/djangocms-lab-publications/releases/download/0.1.4/djangocms-lab-publications-0.1.4.tar.gz
 
 
 Configuration
@@ -114,4 +114,4 @@ Usage
 - Create a CMS page.
 - Insert the ``Publication Set Plugin`` into a placeholder field.
 
-*Version 0.1.3*
+*Version 0.1.4*

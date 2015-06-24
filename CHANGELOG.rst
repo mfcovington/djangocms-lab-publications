@@ -1,6 +1,19 @@
 Revision History
 ================
 
+0.1.4 2015-XX-XX
+
+- Allow manual entry of Publications that don't have a PubMed ID
+- Use django-taggit-helpers in admin
+- Rename deprecated queryset method
+- Configure bumpversion & wheel for easier distribution
+- Convert README and changelog to reStructuredText for distribution via PyPI
+- Minor changes to admin interface
+
+  - Change pagination description to 'pubs per page'
+  - Add/update help text for 'tags' and 'pagination'
+
+
 0.1.3 2015-06-03
 
 - Allow bulk PubMed queries for a Publication Set

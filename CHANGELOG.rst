@@ -1,7 +1,7 @@
 Revision History
 ================
 
-0.1.4 2015-XX-XX
+0.1.4 2015-06-24
 
 - Allow manual entry of Publications that don't have a PubMed ID
 - Use django-taggit-helpers in admin

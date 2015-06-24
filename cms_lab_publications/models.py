@@ -20,12 +20,18 @@ class Publication(models.Model):
     pubmed_url = models.URLField('PubMed URL',
         blank=True,
         help_text="Enter publication's PubMed URL.",
-        unique=True,
     )
     redo_query = models.BooleanField('redo PubMed query?',
         default=False,
         help_text='Check this box to redo the PubMed query.<br>Any manual ' \
                   'changes to the PubMed metadata will be overwritten.',
+    )
+    no_query = models.BooleanField("Don't query PubMed",
+        default=False,
+        help_text="Check this box to prevent a PubMed query.<br>" \
+                  "Instead, enter publication info manually in the section below labeled " \
+                  "'Auto-generated PubMed Metadata'.<br>" \
+                  "This option is useful for when there is no PubMed record for the publication.",
     )
 
     pdf = FilerFileField(
@@ -117,8 +123,17 @@ class Publication(models.Model):
         Before saving, get publication's PubMed metadata if publication
         is not already in database or if 'redo_query' is True.
         """
-        if self.redo_query or not self.pk:
-            self.redo_query = False
+        if self.no_query:
+            if not self.pk or self.pmid > 0:
+                pmid_min = Publication.objects.all().aggregate(
+                    models.Min('pmid'))['pmid__min'] - 1
+                self.pmid = min(0, pmid_min)
+
+            self.pubmed_url = ''
+            self.mini_citation = '{} - {} - {}'.format(
+                self.first_author, self.year, self.journal)
+
+        elif self.redo_query or not self.pk:
             if self.pmid:
                 query = self.pmid
             else:
@@ -143,6 +158,8 @@ class Publication(models.Model):
             self.citation = publication.cite()
             self.mini_citation = publication.cite_mini()
             self.abstract = publication.abstract
+
+        self.redo_query = False
 
         super().save(*args, **kwargs)
 

@@ -77,6 +77,7 @@ class PublicationAdmin(TaggitCounter, admin.ModelAdmin):
             'pubmed_url',
             'mini_citation',
             'redo_query',
+            'no_query',
         ],
     })
 

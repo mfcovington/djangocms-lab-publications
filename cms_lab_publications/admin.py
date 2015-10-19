@@ -5,7 +5,7 @@ from django.db.models import Count
 from .models import Publication, PublicationSet
 from taggit.models import TaggedItem
 from taggit_helpers import (TaggitCounter, TaggitListFilter,
-	TaggitTabularInline)
+    TaggitTabularInline)
 
 
 class PublicationSetInline(admin.TabularInline):

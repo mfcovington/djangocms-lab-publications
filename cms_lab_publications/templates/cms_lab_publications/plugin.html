@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'cms_lab_publications/app.css' %}">
   {% endaddtoblock %}
 
-  <div id="publication-list-ps{{ instance.publication_set.id }}-i{{ instance.id }}">
+  <div id="publication-list-ps{{ instance.publication_set.id }}-i{{ instance.id }}" class="pub-list">
     <form style="display:inline;">
 
     {% if instance.publication_set.searchable %}

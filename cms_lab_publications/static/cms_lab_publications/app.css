@@ -11,6 +11,19 @@
 }
 
 
+/**************/
+/* Pagination */
+/**************/
+
+.pub-list {
+  margin-bottom: 30px;
+}
+
+.pub-list .pagination {
+  margin-bottom: 0px;
+}
+
+
 /*****************/
 /* Search/Filter */
 /*****************/

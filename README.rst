@@ -53,16 +53,9 @@ Do the following in ``settings.py``:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-
-- Add ``filer`` and ``easy_thumbnail`` settings: 
+- Add ``easy_thumbnail`` settings: 
 
 .. code-block:: python
-
-    # For filer's Django 1.7 compatibility
-    MIGRATION_MODULES = {
-        ...
-        'filer': 'filer.migrations_django',
-    }
 
     # For easy_thumbnails to support retina displays (recent MacBooks, iOS)
     THUMBNAIL_HIGH_RESOLUTION = True

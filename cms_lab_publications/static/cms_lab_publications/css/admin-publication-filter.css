@@ -28,3 +28,21 @@ form .field-publications select[multiple] {
 .field-publications .selector ul.selector-chooser li {
   transform:rotate(90deg);
 }
+
+/* Coloring */
+li .selector-add,
+li .selector-remove {
+  color: #999;
+}
+li .selector-add:hover,
+li .selector-remove:hover {
+  color: #999 !important;
+}
+li .selector-add.active,
+li .selector-remove.active {
+  color: #0bf !important;
+}
+li .selector-add.active:hover,
+li .selector-remove.active:hover {
+  color: #4dcfff !important;
+}

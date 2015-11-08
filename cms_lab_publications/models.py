@@ -213,7 +213,6 @@ class PublicationSet(models.Model):
     )
     publications = models.ManyToManyField(Publication,
         blank=True,
-        null=True,
     )
 
     searchable = models.BooleanField('searchable?',

@@ -14,3 +14,17 @@ form .field-publications select[multiple] {
 .field-publications .stacked .selector-available, .stacked .selector-chosen {
   width: 98%;
 }
+
+
+/********************/
+/* Selector buttons */
+/********************/
+
+/* Arrangement */
+.field-publications .selector ul.selector-chooser {
+  margin: 10px 45% 20px;
+  width: 100% !important; /* Need to override '!important' in 'djangocms-admin.css' */
+}
+.field-publications .selector ul.selector-chooser li {
+  transform:rotate(90deg);
+}

@@ -1,11 +1,16 @@
-form select[multiple] {
+/************************/
+/* Stacked filter boxes */
+/************************/
+
+form .field-publications select[multiple] {
+  height: 200px !important; /* Need to override '!important' in 'djangocms-admin.css' */
   max-width: 100%;
 }
 
-.stacked {
-  width: 80%;
+.field-publications .stacked {
+  width: 90%;
 }
 
-.stacked .selector-available, .stacked .selector-chosen {
+.field-publications .stacked .selector-available, .stacked .selector-chosen {
   width: 98%;
 }

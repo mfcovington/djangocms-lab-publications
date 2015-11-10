@@ -1,6 +1,15 @@
 Revision History
 ================
 
+0.1.5 2015-11-09
+
+- Fix styling of vertical filter selector buttons and boxes in response to changes in ``djangocms-admin-style``
+- Add bottom margin to non-paginated publication lists
+- Remove 'Abstract' button from modal
+- Resolve Django 1.8 warnings
+- Update README with more complete and accurate instructions
+
+
 0.1.4 2015-06-24
 
 - Allow manual entry of Publications that don't have a PubMed ID

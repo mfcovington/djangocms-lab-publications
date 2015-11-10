@@ -16,17 +16,17 @@ def read(*paths):
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 install_requires = [
-    "Django>=1.7.7,<1.8",
-    "django-cms>=3.0",
-    "django-filer>=0.9.9",
-    "django-taggit>=0.14.0",
-    "django-taggit-helpers>=0.1.1",
-    "pubmed-lookup>=0.1.1",
+    'Django>=1.7',
+    'django-cms>=3.0.7',
+    'django-filer>=0.9.10',
+    'django-taggit>=0.14.0',
+    'django-taggit-helpers>=0.1.1',
+    'pubmed-lookup>=0.1.1',
 ]
 
 setup(
     name='djangocms-lab-publications',
-    version='0.1.4',
+    version='0.1.5',
     packages=['cms_lab_publications'],
     include_package_data=True,
     license='BSD License',
@@ -42,6 +42,7 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Django',
         'Framework :: Django :: 1.7',
+        'Framework :: Django :: 1.8',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',

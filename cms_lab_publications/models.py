@@ -23,28 +23,28 @@ class Publication(models.Model):
     )
     redo_query = models.BooleanField('redo PubMed query?',
         default=False,
-        help_text='Check this box to redo the PubMed query.<br>Any manual ' \
+        help_text='Check this box to redo the PubMed query.<br>Any manual '
                   'changes to the PubMed metadata will be overwritten.',
     )
     no_query = models.BooleanField("Don't query PubMed",
         default=False,
-        help_text="Check this box to prevent a PubMed query.<br>" \
-                  "Instead, enter publication info manually in the section below labeled " \
-                  "'Auto-generated PubMed Metadata'.<br>" \
+        help_text="Check this box to prevent a PubMed query.<br>"
+                  "Instead, enter publication info manually in the section below labeled "
+                  "'Auto-generated PubMed Metadata'.<br>"
                   "This option is useful for when there is no PubMed record for the publication.",
     )
 
     pdf = FilerFileField(
         blank=True,
         null=True,
-        help_text="Upload/select a PDF for this publication.<br>" \
+        help_text="Upload/select a PDF for this publication.<br>"
                   "Recommended naming format: '[mini citation]'.",
         related_name='%(app_label)s_%(class)s_pdf',
     )
     supplemental_pdf = FilerFileField(
         blank=True,
         null=True,
-        help_text="Upload/select a supplemental PDF for this publication.<br>" \
+        help_text="Upload/select a supplemental PDF for this publication.<br>"
                   "Recommended naming format: '[mini citation] - Supplement'.",
         related_name='%(app_label)s_%(class)s_supplemental_pdf',
     )
@@ -52,8 +52,8 @@ class Publication(models.Model):
     image = FilerImageField(
         blank=True,
         null=True,
-        help_text="Upload/select a representative image or figure " \
-                  "for this publication.<br>" \
+        help_text="Upload/select a representative image or figure "
+                  "for this publication.<br>"
                   "Recommended naming format: '[mini citation] - Figure X'.",
         related_name='%(app_label)s_%(class)s_image',
     )
@@ -102,9 +102,9 @@ class Publication(models.Model):
     )
     mini_citation = models.CharField('mini citation',
         blank=True,
-        help_text='<strong>This field is auto-generated when a PubMed query ' \
-                  'is made.</strong><br>' \
-                  'It is recommended to use this text when adding custom ' \
+        help_text='<strong>This field is auto-generated when a PubMed query '
+                  'is made.</strong><br>'
+                  'It is recommended to use this text when adding custom '
                   'names for uploaded files. See examples below.',
         max_length=255,
     )
@@ -181,14 +181,14 @@ class Publication(models.Model):
 class PublicationSet(models.Model):
 
     name = models.CharField('name',
-        help_text="Enter a unique name for this Publication Set.<br>" \
+        help_text="Enter a unique name for this Publication Set.<br>"
                   "This won't be displayed on the site.",
         max_length=255,
         unique=True,
     )
     label = models.CharField('label',
         default='Publications',
-        help_text='Enter a label for this Publication Set.<br>' \
+        help_text='Enter a label for this Publication Set.<br>'
                   'This will be the heading displayed above the publications.',
         max_length=255,
     )
@@ -199,21 +199,20 @@ class PublicationSet(models.Model):
 
     pagination = models.PositiveIntegerField('pubs per page',
         default=0,
-        help_text="How many publications should be displayed per page?<br>" \
+        help_text="How many publications should be displayed per page?<br>"
                   "To show all at once, enter '0'.",
     )
 
     bulk_pubmed_query = models.TextField('Bulk Query',
         blank=True,
-        help_text='Enter PubMed IDs and/or PubMed URLs to get or create ' \
-                  'multiple Publications and add them to this Publication Set.<br>' \
-                  'PubMed IDs/URLs must be separated by commas or whitespace.<br>' \
-                  'To add files and tags to publication records, create publications ' \
+        help_text='Enter PubMed IDs and/or PubMed URLs to get or create '
+                  'multiple Publications and add them to this Publication Set.<br>'
+                  'PubMed IDs/URLs must be separated by commas or whitespace.<br>'
+                  'To add files and tags to publication records, create publications '
                   'individually via the Publication Admin (or below).',
     )
     publications = models.ManyToManyField(Publication,
         blank=True,
-        null=True,
     )
 
     searchable = models.BooleanField('searchable?',
@@ -255,7 +254,7 @@ class PublicationSet(models.Model):
         """
         if self.bulk_pubmed_query and self.pk is None:
             raise ValidationError(
-                'Can only perform a Bulk PubMed Query with an existing Publication Set. ' \
+                'Can only perform a Bulk PubMed Query with an existing Publication Set. '
                 'First create this Publication Set and then do the Bulk PubMed Query.'
             )
 

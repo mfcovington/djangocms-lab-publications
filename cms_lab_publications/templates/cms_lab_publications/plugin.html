@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'cms_lab_publications/app.css' %}">
   {% endaddtoblock %}
 
-  <div id="publication-list-ps{{ instance.publication_set.id }}-i{{ instance.id }}">
+  <div id="publication-list-ps{{ instance.publication_set.id }}-i{{ instance.id }}" class="pub-list">
     <form style="display:inline;">
 
     {% if instance.publication_set.searchable %}
@@ -25,6 +25,9 @@
             <p class="citation">
               {{ publication.citation }}
               <span class="btn-group btn-group-xs" role="group" aria-label="publication-buttons">
+                {% if publication.abstract %}
+                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-pub-{{ publication.id }}">Abstract</button>
+                {% endif %}
                 {% include "cms_lab_publications/_buttons.html" %}
               </span>
             </p>

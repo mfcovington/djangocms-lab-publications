@@ -63,3 +63,6 @@ target/
 /mysite/
 /project.db
 /static/
+
+# Sass
+.sass-cache/

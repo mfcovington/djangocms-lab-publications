@@ -1,26 +1,33 @@
 /**********/
 /* Modals */
 /**********/
-.modal-footer .btn-group-vertical + .modal-footer .btn-group-vertical {
-  margin-top: 5px;
-}
-.modal-footer .btn-group-vertical .btn + .btn {
-  margin-left: 0px;
+
+.modal-footer .btn-group-vertical {
+  & + & {
+    margin-top: 5px;
+  }
+
+  .btn + .btn {
+    margin-left: 0px;
+  }
 }
 
 /**************/
 /* Pagination */
 /**************/
+
 .pub-list {
   margin-bottom: 30px;
-}
-.pub-list .pagination {
-  margin-bottom: 0px;
+
+  .pagination {
+    margin-bottom: 0px;
+  }
 }
 
 /*****************/
 /* Search/Filter */
 /*****************/
+
 .search-filter-pubs {
   margin-bottom: 10px;
 }
@@ -31,9 +38,8 @@
 
 .filter-container {
   padding-right: 0;
-}
-@media screen and (max-width: 767px) {
-  .filter-container {
+
+  @media screen and (max-width: 767px) {
     margin-top: 7px;
   }
 }

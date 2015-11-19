@@ -1,0 +1,22 @@
+{
+  "name": "djangocms-lab-publications",
+  "version": "0.1.5",
+  "description": "A Django app for adding sets of scientific publications with PubMed metadata to a Django site with django CMS-specific features",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://mfcovington@github.com/mfcovington/djangocms-lab-publications.git"
+  },
+  "author": "Michael F. Covington",
+  "license": "BSD License",
+  "bugs": {
+    "url": "https://github.com/mfcovington/djangocms-lab-publications/issues"
+  },
+  "homepage": "https://pypi.python.org/pypi/djangocms-lab-publications/",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-sass": "^2.1.0",
+    "gulp-sourcemaps": "^1.6.0"
+  }
+}

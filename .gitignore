@@ -66,3 +66,6 @@ target/
 
 # Sass
 .sass-cache/
+
+# npm
+node_modules/

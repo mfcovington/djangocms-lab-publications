@@ -15,7 +15,7 @@ gulp.task('sass', function() {
         .pipe(sourcemaps.init())
             .pipe(sass({ outputStyle: 'compressed' }))
             .pipe(autoprefixer())
-        .pipe(sourcemaps.write('.'))
+        .pipe(sourcemaps.write('../maps'))
         .pipe(gulp.dest(paths.css));
 });
 

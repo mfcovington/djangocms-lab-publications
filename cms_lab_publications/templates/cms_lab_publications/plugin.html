@@ -55,16 +55,13 @@
   {% endfor %}
 
   {% addtoblock "js" %}
-    <script src="{% static 'cms_lab_publications/js/list.min.js' %}"></script>
-
-    {% if instance.publication_set.pagination %}
-      <script src="{% static 'cms_lab_publications/js/list.pagination.min.js' %}"></script>
-    {% endif %}
 
     {% if instance.publication_set.searchable %}
       <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-      <script src="{% static 'cms_lab_publications/js/search-filter-pubs.js' %}"></script>
     {% endif %}
+
+    <script src="{% static 'cms_lab_publications/js/vendor.js' %}"></script>
+    <script src="{% static 'cms_lab_publications/js/app.js' %}"></script>
 
     <script>
       var options = {

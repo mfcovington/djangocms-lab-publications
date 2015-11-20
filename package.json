@@ -14,12 +14,15 @@
   },
   "homepage": "https://pypi.python.org/pypi/djangocms-lab-publications/",
   "devDependencies": {
+    "browser-sync": "^2.10.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
-    "gulp-livereload": "^3.8.1",
     "gulp-sass": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^1.5.1"
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
+    "gulp-wait": "0.0.2",
+    "run-sequence": "^1.1.5"
   }
 }

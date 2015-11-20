@@ -1,12 +1,14 @@
 'use strict';
 
 var autoprefixer = require('gulp-autoprefixer');
+var browserSync = require('browser-sync').create();
 var concat = require('gulp-concat');
 var gulp = require('gulp');
-var livereload = require('gulp-livereload');
+var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
+var wait = require('gulp-wait');
 
 var appName = 'cms_lab_publications';
 var paths = {
@@ -23,7 +25,7 @@ gulp.task('js_app', function() {
             .pipe(uglify())
         .pipe(sourcemaps.write('../maps'))
         .pipe(gulp.dest(paths.js))
-        .pipe(livereload());
+        .pipe(browserSync.stream());
 });
 
 gulp.task('js_vendor', function() {
@@ -33,7 +35,11 @@ gulp.task('js_vendor', function() {
             .pipe(uglify())
         .pipe(sourcemaps.write('../maps'))
         .pipe(gulp.dest(paths.js))
-        .pipe(livereload());
+        .pipe(browserSync.stream());
+});
+
+gulp.task('reloadBrowsers', function() {
+    browserSync.reload();
 });
 
 gulp.task('sass', function() {
@@ -43,22 +49,26 @@ gulp.task('sass', function() {
             .pipe(autoprefixer())
         .pipe(sourcemaps.write('../maps'))
         .pipe(gulp.dest(paths.css))
-        .pipe(livereload());
+        .pipe(browserSync.stream());
 });
 
-function touchPy() {
-    gulp.src(appName + '/__init__.py')
-        .pipe(gulp.dest(appName));
-}
+gulp.task('touchPy', function() {
+    // Touch a .py file in order to trigger runserver to restart
+    // and then wait a moment while it restarts.
+    return gulp.src(appName + '/__init__.py')
+        .pipe(gulp.dest(appName))
+        .pipe(wait(2000));
+});
 
 gulp.task('watch', function() {
-    livereload.listen();
+    browserSync.init({
+        proxy: '127.0.0.1:8000',
+    });
     gulp.watch(paths.sass, ['sass']);
     gulp.watch(paths.js + '/app/**/*.js', ['js_app']);
     gulp.watch(paths.js + '/vendor/**/*.js', ['js_vendor']);
-    gulp.watch(paths.templates).on('change', function(file) {
-        touchPy();
-        livereload.changed(file);
+    gulp.watch(paths.templates).on('change', function(){
+        runSequence('touchPy', 'reloadBrowsers');
     });
 });
 

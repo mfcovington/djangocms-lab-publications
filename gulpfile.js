@@ -3,6 +3,7 @@
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();
 var concat = require('gulp-concat');
+var exec = require('child_process').exec;
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var runSequence = require('run-sequence');
@@ -56,6 +57,19 @@ gulp.task('reloadBrowsers', function() {
     browserSync.reload();
 });
 
+gulp.task('runserver', function() {
+    var proc = exec('PYTHONUNBUFFERED=1 python manage.py runserver ' +
+        (gutil.env.port ? gutil.env.port : '8000'));
+
+    proc.stderr.on('data', function(data) {
+      process.stdout.write(data);
+    });
+
+    proc.stdout.on('data', function(data) {
+      process.stderr.write(data);
+    });
+});
+
 gulp.task('sass', function() {
     browserSync.notify('Compiling Sass');
     return gulp.src(paths.sass)
@@ -85,4 +99,4 @@ gulp.task('watch', ['browserSyncInit'], function() {
     });
 });
 
-gulp.task('default', ['js_app', 'js_vendor', 'sass', 'watch']);
+gulp.task('default', ['js_app', 'js_vendor', 'sass', 'runserver', 'watch']);

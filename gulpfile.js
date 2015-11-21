@@ -20,10 +20,11 @@ var paths = {
 };
 
 gulp.task('browserSyncInit', function() {
+    var port = gutil.env.port ? gutil.env.port : '8000'
     browserSync.init({
         logPrefix: 'Browsersync:' + appName,
-        port: gutil.env.port ? gutil.env.port : '8000',
-        proxy: '127.0.0.1:8000',
+        port: port,
+        proxy: '127.0.0.1:' + port,
         ui: { port: gutil.env.ui ? gutil.env.ui : '8001' },
     });
 });

@@ -19,14 +19,15 @@ var paths = {
     sass: appName + '/sass/app.scss',
     templates: '**/templates/**/*.html',
 };
+var port = gutil.env.port ? gutil.env.port : '8000'
+var uiPort = gutil.env.ui ? gutil.env.ui : '3000'
 
 gulp.task('browserSyncInit', function() {
-    var port = gutil.env.port ? gutil.env.port : '8000'
     browserSync.init({
         logPrefix: 'Browsersync:' + appName,
         port: port,
         proxy: '127.0.0.1:' + port,
-        ui: { port: gutil.env.ui ? gutil.env.ui : '8001' },
+        ui: { port: uiPort },
     });
 });
 
@@ -58,8 +59,7 @@ gulp.task('reloadBrowsers', function() {
 });
 
 gulp.task('runserver', function() {
-    var proc = exec('PYTHONUNBUFFERED=1 python manage.py runserver ' +
-        (gutil.env.port ? gutil.env.port : '8000'));
+    var proc = exec('PYTHONUNBUFFERED=1 python manage.py runserver ' + port);
 
     proc.stderr.on('data', function(data) {
       process.stdout.write(data);

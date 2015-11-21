@@ -68,6 +68,7 @@ gulp.task('touchPy', function() {
 
 gulp.task('watch', function() {
     browserSync.init({
+        logPrefix: 'Browsersync:' + appName,
         port: gutil.env.port ? gutil.env.port : '8000',
         proxy: '127.0.0.1:8000',
         ui: { port: gutil.env.ui ? gutil.env.ui : '8001' },

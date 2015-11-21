@@ -16,6 +16,7 @@ var appName = 'cms_lab_publications';
 var paths = {
     css: appName + '/static/' + appName + '/css',
     js: appName + '/static/' + appName + '/js',
+    py: '**/*.py',
     sass: appName + '/sass/app.scss',
     templates: '**/templates/**/*.html',
 };
@@ -101,7 +102,7 @@ gulp.task('watch', ['browserSyncInit'], function() {
     gulp.watch(paths.sass, ['sass']);
     gulp.watch(paths.js + '/app/**/*.js', ['js_app']);
     gulp.watch(paths.js + '/vendor/**/*.js', ['js_vendor']);
-    gulp.watch(paths.templates).on('change', function(){
+    gulp.watch([paths.py, paths.templates]).on('change', function(){
         runSequence('touchPy', 'reloadBrowsers');
     });
 });

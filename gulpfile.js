@@ -19,6 +19,15 @@ var paths = {
     templates: '**/templates/**/*.html',
 };
 
+gulp.task('browserSyncInit', function() {
+    browserSync.init({
+        logPrefix: 'Browsersync:' + appName,
+        port: gutil.env.port ? gutil.env.port : '8000',
+        proxy: '127.0.0.1:8000',
+        ui: { port: gutil.env.ui ? gutil.env.ui : '8001' },
+    });
+});
+
 gulp.task('js_app', function() {
     browserSync.notify('Compiling App JavaScript');
     return gulp.src(paths.js + '/app/**/*.js')
@@ -66,13 +75,7 @@ gulp.task('touchPy', function() {
         .pipe(wait(2000));
 });
 
-gulp.task('watch', function() {
-    browserSync.init({
-        logPrefix: 'Browsersync:' + appName,
-        port: gutil.env.port ? gutil.env.port : '8000',
-        proxy: '127.0.0.1:8000',
-        ui: { port: gutil.env.ui ? gutil.env.ui : '8001' },
-    });
+gulp.task('watch', ['browserSyncInit'], function() {
     gulp.watch(paths.sass, ['sass']);
     gulp.watch(paths.js + '/app/**/*.js', ['js_app']);
     gulp.watch(paths.js + '/vendor/**/*.js', ['js_vendor']);

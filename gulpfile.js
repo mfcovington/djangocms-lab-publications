@@ -59,14 +59,21 @@ gulp.task('reloadBrowsers', function() {
 });
 
 gulp.task('runserver', function() {
-    var proc = exec('PYTHONUNBUFFERED=1 python manage.py runserver ' + port);
+    var proc = exec('PYTHONUNBUFFERED=1 python manage.py runserver ' + port,
+        function (error) {
+            if (error !== null) {
+              throw Error(gutil.colors.magenta(
+                'Runserver Error -- is port already in use?'));
+            }
+        }
+    );
 
     proc.stderr.on('data', function(data) {
-      process.stdout.write(data);
+        process.stderr.write(data);
     });
 
     proc.stdout.on('data', function(data) {
-      process.stderr.write(data);
+        process.stdout.write(data);
     });
 });
 

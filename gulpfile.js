@@ -19,6 +19,7 @@ var paths = {
 };
 
 gulp.task('js_app', function() {
+    browserSync.notify('Compiling App JavaScript');
     return gulp.src(paths.js + '/app/**/*.js')
         .pipe(sourcemaps.init())
             .pipe(concat('app.js'))
@@ -29,6 +30,7 @@ gulp.task('js_app', function() {
 });
 
 gulp.task('js_vendor', function() {
+    browserSync.notify('Compiling Vendor JavaScript');
     return gulp.src(paths.js + '/vendor/**/*.js')
         .pipe(sourcemaps.init())
             .pipe(concat('vendor.js'))
@@ -39,10 +41,12 @@ gulp.task('js_vendor', function() {
 });
 
 gulp.task('reloadBrowsers', function() {
+    browserSync.notify('Reloading Browsers');
     browserSync.reload();
 });
 
 gulp.task('sass', function() {
+    browserSync.notify('Compiling Sass');
     return gulp.src(paths.sass)
         .pipe(sourcemaps.init())
             .pipe(sass({ outputStyle: 'compressed' }))
@@ -55,6 +59,7 @@ gulp.task('sass', function() {
 gulp.task('touchPy', function() {
     // Touch a .py file in order to trigger runserver to restart
     // and then wait a moment while it restarts.
+    browserSync.notify('Restarting Runserver');
     return gulp.src(appName + '/__init__.py')
         .pipe(gulp.dest(appName))
         .pipe(wait(2000));

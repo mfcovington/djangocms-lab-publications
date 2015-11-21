@@ -4,6 +4,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();
 var concat = require('gulp-concat');
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
@@ -67,7 +68,9 @@ gulp.task('touchPy', function() {
 
 gulp.task('watch', function() {
     browserSync.init({
+        port: gutil.env.port ? gutil.env.port : '8000',
         proxy: '127.0.0.1:8000',
+        ui: { port: gutil.env.ui ? gutil.env.ui : '8001' },
     });
     gulp.watch(paths.sass, ['sass']);
     gulp.watch(paths.js + '/app/**/*.js', ['js_app']);

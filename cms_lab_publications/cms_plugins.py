@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from .models import Publication, PublicationSet, PublicationSetPlugin
+from .models import PublicationSetPlugin
 
 
 class CMSPublicationSetPlugin(CMSPluginBase):

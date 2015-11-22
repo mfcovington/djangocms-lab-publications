@@ -1,11 +1,10 @@
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline
 from django.db.models import Count
 
-from .models import Publication, PublicationSet
-from taggit.models import TaggedItem
 from taggit_helpers import (TaggitCounter, TaggitListFilter,
     TaggitTabularInline)
+
+from .models import Publication, PublicationSet
 
 
 class PublicationSetInline(admin.TabularInline):

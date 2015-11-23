@@ -17,7 +17,7 @@ var paths = {
     css: appName + '/static/' + appName + '/css',
     js: appName + '/static/' + appName + '/js',
     py: '**/*.py',
-    sass: appName + '/sass/app.scss',
+    sass: appName + '/sass/**/*.scss',
     templates: '**/templates/**/*.html',
 };
 var port = gutil.env.port ? gutil.env.port : '8000'

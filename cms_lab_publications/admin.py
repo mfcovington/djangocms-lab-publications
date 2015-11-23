@@ -192,7 +192,7 @@ class PublicationSetAdmin(TaggitCounter, admin.ModelAdmin):
 
     class Media:
         css = {
-            'all': ('cms_lab_publications/css/admin-publication-filter.css',)
+            'all': ('cms_lab_publications/css/admin.css',)
         }
 
     fieldset_publication_set = ('Publication Set', {

@@ -1,0 +1,45 @@
+/* Where necessary, overriding '!important' in 'djangocms-admin.css' */
+
+/************************/
+/* Stacked filter boxes */
+/************************/
+.selector.stacked {
+  width: 90%;
+
+  .selector-available, .selector-chosen {
+    width: 98%;
+
+    select[multiple] {
+      height: 200px !important;
+      max-width: 100%;
+    }
+  }
+  /********************/
+  /* Selector buttons */
+  /********************/
+  .selector-chooser {
+    margin: 10px 45% 20px;
+    width: 100% !important;
+
+    li {
+      transform: rotate(90deg);
+
+      .selector-add,
+      .selector-remove {
+        color: #999;
+
+        &:hover {
+          color: #999 !important;
+        }
+
+        &.active {
+          color: #0bf !important;
+
+          &:hover {
+            color: #4dcfff !important;
+          }
+        }
+      }
+    }
+  }
+}

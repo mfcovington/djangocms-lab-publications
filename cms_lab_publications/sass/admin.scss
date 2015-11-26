@@ -1,5 +1,15 @@
 /* Where necessary, overriding '!important' in 'djangocms-admin.css' */
 
+/**************************/
+/* Field sets and Inlines */
+/**************************/
+
+form fieldset,
+.inline-group .module {
+  max-width: 1200px;
+  width: 100%;
+}
+
 /************************/
 /* Stacked filter boxes */
 /************************/

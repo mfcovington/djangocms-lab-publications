@@ -24,25 +24,27 @@
   .selector-chooser {
     margin: 10px 45% 20px;
     width: 100% !important;
+  }
 
-    li {
+  .selector-add,
+  .selector-remove,
+  .selector-chooseall,
+  .selector-clearall {
+    color: #999 !important;
+
+    &:before {
       transform: rotate(90deg);
+    }
 
-      .selector-add,
-      .selector-remove {
-        color: #999;
+    &:hover {
+      color: #999 !important;
+    }
 
-        &:hover {
-          color: #999 !important;
-        }
+    &.active, &.active:before {
+      color: #0bf !important;
 
-        &.active {
-          color: #0bf !important;
-
-          &:hover {
-            color: #4dcfff !important;
-          }
-        }
+      &:hover, &:hover:before {
+        color: #4dcfff !important;
       }
     }
   }

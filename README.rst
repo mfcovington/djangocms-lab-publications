@@ -18,11 +18,12 @@ Installation
 
     pip install djangocms-lab-publications
 
-**GitHub**
+
+**GitHub (development branch)**
 
 .. code-block:: sh
 
-    pip install https://github.com/mfcovington/djangocms-lab-publications/releases/download/0.1.5/djangocms-lab-publications-0.1.5.tar.gz
+    pip install git+http://github.com/mfcovington/djangocms-lab-publications.git@develop
 
 
 Configuration

@@ -1,8 +1,13 @@
+from django import VERSION as DJANGO_VERSION
 from django.contrib import admin
 from django.db.models import Count
 
-from taggit_helpers import (TaggitCounter, TaggitListFilter,
-    TaggitTabularInline)
+if DJANGO_VERSION < (1, 9):
+    from taggit_helpers import (TaggitCounter, TaggitListFilter,
+        TaggitTabularInline)
+else:
+    from taggit_helpers.admin import (TaggitCounter, TaggitListFilter,
+        TaggitTabularInline)
 
 from .models import Publication, PublicationSet
 

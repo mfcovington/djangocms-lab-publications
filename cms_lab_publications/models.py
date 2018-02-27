@@ -2,6 +2,7 @@ import re
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.html import strip_tags
 
 from cms.models import CMSPlugin
 from filer.fields.file import FilerFileField
@@ -153,7 +154,7 @@ class Publication(models.Model):
             self.pmid = publication.pmid
             self.pubmed_url = publication.pubmed_url
 
-            self.title = publication.title
+            self.title = strip_tags(publication.title)
             self.authors = publication.authors
             self.first_author = publication.first_author
             self.last_author = publication.last_author
@@ -164,7 +165,7 @@ class Publication(models.Model):
             self.url = publication.url
             self.citation = publication.cite()
             self.mini_citation = publication.cite_mini()
-            self.abstract = publication.abstract
+            self.abstract = strip_tags(publication.abstract)
 
         self.redo_query = False
 

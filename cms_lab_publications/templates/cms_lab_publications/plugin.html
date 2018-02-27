@@ -34,7 +34,7 @@
 
             {% if instance.publication_set.searchable %}
               <!-- Hidden search/filter fields -->
-              <p class="abstract" style="display: none;">{{ publication.abstract }}</p>
+              <p class="abstract" style="display: none;">{{ publication.abstract|striptags }}</p>
               <p class="authors" style="display: none;">{{ publication.authors }}</p>
               <p class="tags" style="display: none;">{% for tag in publication.tags.values %}{{ tag.id }} {% endfor %}</p>
             {% endif %}
